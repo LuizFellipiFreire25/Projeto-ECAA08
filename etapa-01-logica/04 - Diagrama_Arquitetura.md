@@ -1,62 +1,32 @@
-# Diagrama de Arquitetura Lógica e Intertravamento
+# Diagrama de Arquitetura Lógica e Intertravamento (P&ID)
 
-Este documento apresenta o diagrama estrutural do sistema de controle do AGV. O fluxo mapeia a transição dos sinais discretos capturados pela **Visão Computacional (IA)** e pelos **Sensores de Bordo (Hardware)** até chegarem ao **Motor Lógico do SCADA-Core**, que processa as equações booleanas e aciona os **Atuadores**.
+Este documento apresenta o Diagrama de Tubulação e Instrumentação (**P&ID - Piping and Instrumentation Diagram**) do sistema de controle do **AGV Logístico de Inspeção e Amostragem**, elaborado segundo as normas da **ISA-5.1**.
 
-O diagrama abaixo foi gerado utilizando a linguagem de modelagem de grafos *Mermaid*.
+O diagrama especifica a arquitetura de malha aberta e fechada, mapeando a integração entre os **algoritmos de Visão Computacional**, os **sensores ambientais de bordo**, o **CLP embarcado (motor lógico do SCADA-Core)** e os **atuadores físicos**.
 
-```mermaid
-graph TD
-    %% Entradas de Dados
-    subgraph Visao [Visão Computacional - Câmera Frontal]
-        C1(c1: Operador Detectado)
-        D1(d1: Operador Muito Perto)
-    end
+---
 
-    subgraph Seguranca [Sensores de Bordo - Hardware]
-        S1(s1: E-Stop Pressionado)
-        B1(b1: Bateria Crítica)
-        G1(g1: Gás Tóxico)
-    end
+## 📐 Diagrama P&ID do Sistema (Setor 300)
 
-    %% Processamento Lógico (SCADA)
-    subgraph Logica [Motor Lógico SCADA-Core]
-        OR_F{PORTA OR<br/>Falha Crítica F}
-        AND_P{PORTA AND<br/>Permissivo P_mov}
-        NOT_F((NOT))
-    end
+![Diagrama P&ID do AGV Logístico e Visão Computacional](diagrama_agv.png)
 
-    %% Saídas Físicas
-    subgraph Saidas [Atuadores e Sinalização]
-        M1[m1: Motor de Tração]
-        A1[a1: Braço Robótico]
-        L1[l1: Alarme / Giroflex]
-    end
+---
 
-    %% Roteamento da Falha Crítica
-    S1 --> OR_F
-    B1 --> OR_F
-    G1 --> OR_F
-    
-    %% Consequências da Falha
-    OR_F ==>|F = 1| L1
-    OR_F --> NOT_F
-    
-    %% Roteamento do Permissivo de Movimento
-    C1 --> AND_P
-    D1 -.->|Sinal Invertido ¬d1| AND_P
-    NOT_F -->|Sinal ¬F| AND_P
-    
-    %% Atuação
-    AND_P ==>|P_mov = 1| M1
-    
-    %% Proteção Mecânica
-    M1 -.->|Intertrava: Bloqueia se m1=1| A1
-    
-    %% Estilos de cores (opcional, o GitHub renderiza perfeitamente sem, mas adiciona destaque)
-    classDef red fill:#ffcccc,stroke:#cc0000,stroke-width:2px;
-    classDef green fill:#ccffcc,stroke:#009900,stroke-width:2px;
-    classDef logic fill:#e6f2ff,stroke:#0066cc,stroke-width:2px;
-    
-    class S1,B1,G1,OR_F,L1 red;
-    class C1,M1 green;
-    class AND_P,NOT_F logic;
+## 🛠️ Descrição dos Instrumentos e Malhas de Controle
+
+### 1. Sensores e Entradas de Dados (Lado Esquerdo)
+* **CAM-101 (Câmera Frontal RGB - Processamento de IA):** Transmite o sinal lógico $c_1$ confirmando a presença do operador no campo de visão (confiança $> 50\%$).
+* **CAM-102 (Medidor de Área de Bounding Box):** Transmite o sinal discreto $d_1$ referente à proximidade crítica do operador em relação ao chassi do AGV (zona de risco de colisão).
+* **AT-201 (Transmissor/Detector de Gás Tóxico):** Transmite o sinal $g_1$ ao detectar concentração de $\text{NH}_3 > 25\text{ ppm}$ no ambiente.
+* **BT-201 (Transmissor de Tensão de Bateria):** Transmite o sinal $b_1$ indicando nível de carga crítica ($< 10\%$).
+* **ESD-200 (Botão de Parada de Emergência):** Transmite o sinal $s_1$ de interrupção manual de emergência (NC/NF).
+
+### 2. Processamento e Intertravamento (Centro - CLP Embarcado)
+O **CLP Embarcado** recebe todos os sinais analógicos e discretos e executa o processamento do **SCADA-Core**:
+* **Equação de Falha Crítica ($F$):** $F \equiv s_1 \lor b_1 \lor g_1$. Caso $F = 1$, o CLP aciona imediatamente o desligamento geral de tração e ativa a sinalização de alerta.
+* **Equação de Permissivo de Movimento ($P_{mov}$):** $P_{mov} \equiv c_1 \land \neg d_1 \land \neg F$. A tração só é mantida sob ausência total de falhas e confirmação da posição do operador.
+
+### 3. Atuadores e Saídas de Controle (Lado Direito)
+* **ALM-301 (Giroflex e Buzzer de Alerta):** Recebe o comando $l_1$ em caso de disparo da malha de emergência.
+* **M-301 (Motor DC de Tração Principal):** Controlado pelo sinal proporcional de velocidade e travado no caso de liberação do permissivo $m_1$.
+* **A-301 (Atuador Linear do Braço Robótico):** Responsável pelo acoplamento nos tanques. Possui intertravamento físico/lógico direto com a tração: só é liberado ($a_1$) quando o motor de tração estiver parado ($\neg m_1$).
