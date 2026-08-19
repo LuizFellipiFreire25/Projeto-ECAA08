@@ -1,3 +1,5 @@
+
+
 # Mapeamento de Variáveis de Processo para Proposições Lógicas
 
 Na automação industrial (norma **ISA-5.1**), instrumentos, sensores e algoritmos de controle emitem e recebem sinais discretos (binários: $0$ = Falso / $1$ = Verdadeiro).
@@ -7,6 +9,9 @@ Abaixo, as variáveis do **AGV Logístico de Inspeção e Amostragem (Setor 300)
 ---
 
 ## Setor 300: AGV Logístico e Visão Computacional (Follow-Me)
+
+![Diagrama do AGV Logístico](diagrama_agv.png)
+
 
 ### 1. Entradas de Visão Computacional (Processamento de Imagem - IA)
 
