@@ -1,3 +1,4 @@
+```mermaid
 graph LR
     ST01["ST-01: Estação Base"] -->|Corredor 1| DOC101["DOC-101: Doca Recebimento"]
     ST01 -->|Corredor 2| ALM201["ALM-201: Almoxarifado"]
