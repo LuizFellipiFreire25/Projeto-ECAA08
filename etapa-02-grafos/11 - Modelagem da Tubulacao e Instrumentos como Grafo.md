@@ -14,6 +14,7 @@ Onde:
 ### Diagrama da Malha de Navegação do AGV (Mermaid)
 
 
+```mermaid
 graph LR
     ST01["ST-01: Estação Base / Carga"] -->|10m - TAG-01| DOC101["DOC-101: Doca Recebimento"]
     ST01 -->|12m - TAG-02| ALM201["ALM-201: Almoxarifado"]
