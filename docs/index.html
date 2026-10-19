@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCADA-Core Automática: Sistema de Controle Visão-AGV | ECAA08 2026.2</title>
+  <link rel="icon" type="image/x-icon" href="https://transparencia.unifei.edu.br/wp-content/uploads/2023/09/cropped-simbolo_RGB-32x32.png" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- MathJax 3 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="scada-badge">SCADA-CORE</span>
+        <span>Visão-AGV • ECAA08</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">🏠 Início</a></li>
+        <li><a href="etapa-01-logica.html">⚡ Etapa 01: Lógica (Disponível)</a></li>
+        <li><a href="etapa-02-grafos.html">🕸️ Etapa 02: Grafos AGV (Disponível)</a></li>
+        <li><a href="planta-quimica.html">🏭 Layout Galpão & P&ID</a></li>
+        <li><a href="diretrizes-github.html">🐙 GitHub & 5W2H</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Modo Escuro/Claro">☀️</button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero-section">
+    <div class="hero-container">
+      <span class="hero-tagline">Engenharia de Controle & Automação • UNIFEI • ECAA08</span>
+      <h1 class="hero-title">SCADA-Core Automática: Sistema de Controle Visão-AGV</h1>
+      <p class="hero-subtitle">
+        Integração rigorosa de <strong>Matemática Discreta</strong> (Lógica Formal, Sistemas Especialistas, Teoria dos Grafos, Árvores e Relações) e <strong>Visão Computacional (OpenCV MobileNet V2 — Modo Follow-Me)</strong> para navegação autônoma, inspeção e amostragem química segura em plantas industriais de fertilizantes NPK.
+      </p>
+      
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span>📘 <strong>Disciplina:</strong> ECAA08 Automática (2026.2)</span>
+        </div>
+        <div class="hero-meta-item">
+          <span>🚜 <strong>Sistema:</strong> AGV Follow-Me + Braço Coletor A-301</span>
+        </div>
+        <div class="hero-meta-item">
+          <span>👥 <strong>Equipe:</strong> Luiz Fellipi • Daniel Melo • Vinicius Kody • Vinicius Resende</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="etapa-01-logica.html" class="btn btn-primary" style="font-size: 1rem; padding: 0.85rem 1.6rem;">
+          ⚡ Etapa 01: Lógica Formal & Follow-Me →
+        </a>
+        <a href="etapa-02-grafos.html" class="btn btn-primary" style="font-size: 1rem; padding: 0.85rem 1.6rem; background: linear-gradient(135deg, #059669, #10b981);">
+          🕸️ Etapa 02: Grafos & Roteamento AGV →
+        </a>
+        <a href="planta-quimica.html" class="btn btn-outline">
+          🏭 Ver Layout Galpão & P&ID ISA-5.1
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-container">
+
+    <!-- VISÃO GERAL DA ADAPTAÇÃO FOLLOW-ME -->
+    <div class="callout callout-info" style="margin-bottom: 3.5rem;">
+      <div class="callout-title">🤖 Sobre o Projeto Visão-AGV (Adaptação Drone Follow-Me OpenCV para Planta Química)</div>
+      <p>
+        Este repositório implementa o núcleo computacional do <strong>SCADA-Core Automática</strong> aplicado a um <strong>AGV Logístico de Inspeção e Amostragem Química (Setor 300)</strong>. Adaptando a malha de controle proporcional do projeto <em>Drone Follow-Me com OpenCV</em> para o domínio terrestre industrial, o AGV rastreia o operador humano via <strong>MobileNet V2</strong> (<code>CAM-101</code> / <code>CAM-102</code>) controlando 3 eixos: <strong>Eixo X</strong> (Servo de Esterçamento), <strong>Eixo Z</strong> (Tração PWM <code>M-301</code>) e <strong>Eixo Y</strong> (Braço Robótico de Amostragem <code>A-301</code>), sob supervisão formal contra vazamentos de amônia $\text{NH}_3$ (<code>AT-201</code>) e falhas de bateria (<code>BT-201</code>).
+      </p>
+    </div>
+
+    <!-- SEÇÃO DOS MÓDULOS / ETAPAS -->
+    <section style="margin-bottom: 4rem;">
+      <div class="section-header">
+        <span class="section-tag">Roteiro de Engenharia</span>
+        <h2 class="section-title">Módulos e Simuladores do SCADA-Core / Visão-AGV</h2>
+        <p class="section-subtitle">Acesse as documentações completas, apresentações em slides, notebooks e simuladores interativos em tempo real.</p>
+      </div>
+
+      <div class="grid-2">
+        
+        <!-- CARD ETAPA 01: DISPONÍVEL -->
+        <div class="card" style="border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);">
+          <div class="card-header">
+            <span class="module-badge badge-mod1">Módulo 1 • Aulas 01 a 10</span>
+            <span style="background: #10b981; color: #ffffff; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono);">✅ DISPONÍVEL AGORA</span>
+          </div>
+          <h3 class="card-title" style="color: #60a5fa;">⚡ Etapa 01: Lógica Formal & Sistema Especialista do AGV</h3>
+          <p class="card-description">
+            Mapeamento ISA-5.1 do Visão-AGV ($c_1, d_1, g_1, b_1, s_1$), prova formal da tautologia de segurança $(F \land m_1) \land (\neg m_1 \lor \neg F) \equiv \mathbf{F}$, otimização booleana SymPy com Override ($O_m$), quantificadores ($\forall, \exists$), refutação e motor <em>Forward/Backward Chaining</em> (regras <code>R-01</code> a <code>R-06</code>).
+          </p>
+          <ul style="padding-left: 1.25rem; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            <li>📽️ <strong>Apresentação:</strong> 15 slides interativos cobrindo as Aulas 01 a 10.</li>
+            <li>🎛️ <strong>Simulador Follow-Me:</strong> Sinótico SVG do AGV, Bounding Box IA e injeção de falhas.</li>
+            <li>📖 <strong>Aulas 01 a 10:</strong> Memorial completo dos arquivos <code>.md</code> e notebooks <code>.ipynb</code>.</li>
+          </ul>
+          <div class="card-footer">
+            <a href="etapa-01-logica.html" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              Acessar Etapa 01: Lógica & Simulador Follow-Me →
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD ETAPA 02: DISPONÍVEL -->
+        <div class="card" style="border-color: #10b981; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);">
+          <div class="card-header">
+            <span class="module-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">Módulo 2 • Aulas 11 a 18</span>
+            <span style="background: #10b981; color: #ffffff; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono);">✅ DISPONÍVEL AGORA</span>
+          </div>
+          <h3 class="card-title" style="color: #34d399;">🕸️ Etapa 02: Teoria dos Grafos & Navegação Autônoma de AGVs</h3>
+          <p class="card-description">
+            Modelagem da malha de waypoints do galpão como dígrafo ponderado $G=(V, E, W)$, balanço de tráfego $B \cdot \vec{Q} = \vec{S}$, buscas BFS/DFS, menor rota via <strong>Dijkstra</strong> ($85\text{ m}$), desvio dinâmico de obstáculos ($W \to \infty$), patrulha euleriana via <strong>Hierholzer</strong>, coleta <strong>TSP (NN + 2-Opt)</strong> e <strong>DAG de Kahn</strong>.
+          </p>
+          <ul style="padding-left: 1.25rem; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            <li>📽️ <strong>Apresentação:</strong> 10 slides executivos com matrizes e teoremas de grafos.</li>
+            <li>🎛️ <strong>Emulador de Rotas AGV:</strong> Galpão interativo com bloqueio de corredores e despacho.</li>
+            <li>📖 <strong>Aulas 11 a 18:</strong> Memorial detalhado dos 8 notebooks da Etapa 02.</li>
+          </ul>
+          <div class="card-footer">
+            <a href="etapa-02-grafos.html" class="btn btn-primary" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #059669, #10b981);">
+              Acessar Etapa 02: Grafos & Emulador de Rotas →
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD ETAPA 03: EM BREVE -->
+        <div class="card" style="opacity: 0.85;">
+          <div class="card-header">
+            <span class="module-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3);">Módulo 3 • Aulas 19 a 28</span>
+            <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono);">⏳ EM BREVE</span>
+          </div>
+          <h3 class="card-title">🌲 Etapa 03: Árvores & Gestão de Alarmes (ISA-18.2)</h3>
+          <p class="card-description">
+            Hierarquia de ativos mecatrônicos ISA-95 do Visão-AGV, Árvores Binárias de Busca (BST) $O(\log n)$ para indexação de <em>Tags</em>, supressão inteligente de enxurradas de alarmes (<em>Alarm Flood</em>) e árvore de decisão de parada segura (ESD).
+          </p>
+          <div class="callout callout-warning" style="margin: 0.75rem 0; padding: 0.6rem 0.9rem; font-size: 0.82rem;">
+            <strong>Previsão de Liberação:</strong> Aulas 19 a 28 conforme cronograma semestral.
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-outline" style="width: 100%; justify-content: center; opacity: 0.6; cursor: not-allowed;" disabled>
+              Disponível em Breve
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD ETAPA 04: EM BREVE -->
+        <div class="card" style="opacity: 0.85;">
+          <div class="card-header">
+            <span class="module-badge" style="background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3);">Módulo 4 • Aulas 29 a 32</span>
+            <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono);">⏳ EM BREVE</span>
+          </div>
+          <h3 class="card-title">🔄 Etapa 04: Relações, Permissões RBAC & Grafcet</h3>
+          <p class="card-description">
+            Matrizes booleanas de controle de acesso (RBAC), conjuntos parcialmente ordenados (POSETs e Diagramas de Hasse) e sequenciamento de missões de amostragem do AGV em Grafcet/SFC (IEC 61131-3).
+          </p>
+          <div class="callout callout-warning" style="margin: 0.75rem 0; padding: 0.6rem 0.9rem; font-size: 0.82rem;">
+            <strong>Previsão de Liberação:</strong> Aulas 29 a 32 na reta final do semestre.
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-outline" style="width: 100%; justify-content: center; opacity: 0.6; cursor: not-allowed;" disabled>
+              Disponível em Breve
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- METODOLOGIA GITHUB & PLANTA -->
+    <section style="margin-bottom: 2rem;">
+      <div class="card" style="background: #091224; border-color: #1e3a5f;">
+        <div class="grid-2">
+          <div>
+            <h3 style="color: #38bdf8; margin-bottom: 0.5rem;">🐙 Governança GitHub & Matriz 5W2H da Equipe</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Confira a distribuição de responsabilidades entre os integrantes (Luiz Fellipi, Daniel Melo, Vinicius Kody e Vinicius Resende), a arquitetura de pastas do repositório e a Matriz 5W2H das Etapas 01 e 02.
+            </p>
+            <a href="diretrizes-github.html" class="btn btn-outline" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">
+              Ver Governança Git & Matriz 5W2H →
+            </a>
+          </div>
+
+          <div>
+            <h3 style="color: #10b981; margin-bottom: 0.5rem;">🏭 Layout do Galpão NPK & P&ID do Visão-AGV</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+              Explore a adaptação dos 3 eixos do Drone Follow-Me OpenCV, o Diagrama P&ID oficial do AGV (Setor 300), as reações químicas de MAP/DAP e o catálogo de Tags ISA-5.1.
+            </p>
+            <a href="planta-quimica.html" class="btn btn-outline" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">
+              Ver Layout do Galpão & P&ID →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>© 2026.2 ECAA08 Automática • Engenharia de Controle e Automação • UNIFEI. Publicado no GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

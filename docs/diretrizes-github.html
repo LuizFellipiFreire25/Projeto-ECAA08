@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diretrizes GitHub & Matriz 5W2H | Visão-AGV / SCADA-Core</title>
+  <link rel="icon" type="image/x-icon" href="https://transparencia.unifei.edu.br/wp-content/uploads/2023/09/cropped-simbolo_RGB-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="scada-badge">GITHUB & 5W2H</span>
+        <span>SCADA-Core / Visão-AGV</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">🏠 Início</a></li>
+        <li><a href="etapa-01-logica.html">⚡ Etapa 01: Lógica</a></li>
+        <li><a href="etapa-02-grafos.html">🕸️ Etapa 02: Grafos AGV</a></li>
+        <li><a href="planta-quimica.html">🏭 Layout Galpão</a></li>
+        <li><a href="diretrizes-github.html" class="active">🐙 GitHub & 5W2H</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Modo Escuro/Claro">☀️</button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-section" style="padding: 3rem 1.5rem 3.5rem;">
+    <div class="hero-container">
+      <span class="hero-tagline">Governança & Engenharia Colaborativa • ECAA08 2026.2</span>
+      <h1 class="hero-title" style="font-size: 2.3rem;">Diretrizes GitHub e Matriz de Gestão 5W2H (Visão-AGV)</h1>
+      <p class="hero-subtitle">
+        Arquitetura do repositório unificado da equipe, auditoria de contribuições individuais via Git e planejamento executivo 5W2H das Etapas 01 e 02 do projeto <strong>SCADA-Core Automática: Sistema de Controle Visão-AGV</strong>.
+      </p>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- 1. ESTRUTURA DO REPOSITÓRIO E EQUIPE -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Organização de Engenharia</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">1. Equipe de Engenharia e Arquitetura do Repositório</h2>
+      </div>
+
+      <p style="margin-bottom: 1.25rem;">
+        O projeto <strong>SCADA-Core Automática: Sistema de Controle Visão-AGV</strong> é desenvolvido de forma colaborativa utilizando o fluxo Git/GitHub sob a metodologia <em>Problem-Based Learning (PBL)</em> da disciplina <strong>ECAA08 - Automática (UNIFEI)</strong>.
+      </p>
+
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <div class="card">
+          <h4 style="color: #38bdf8; margin-bottom: 0.75rem;">👥 Discentes Integrantes do Grupo</h4>
+          <ul style="padding-left: 1.2rem; font-size: 0.92rem; color: var(--text-muted); line-height: 1.8;">
+            <li><strong>Luiz Fellipi:</strong> Visão Computacional OpenCV (MobileNet V2), Adaptação Follow-Me e Arquitetura Lógica.</li>
+            <li><strong>Daniel Melo:</strong> Modelagem Proposicional, Provas Formais de Tautologia e Matrizes Topológicas ($B, A, W$).</li>
+            <li><strong>Vinicius Kody:</strong> Sistemas Especialistas (Cláusulas de Horn, Forward/Backward Chaining) e Roteamento Dijkstra.</li>
+            <li><strong>Vinicius Resende:</strong> Integração SCADA-Core Web, Simuladores Interativos (Etapas 01 e 02), Hierholzer, TSP 2-Opt e DAGs.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4 style="color: var(--primary-light); margin-bottom: 0.75rem;">📂 Árvore de Diretórios do Repositório</h4>
+          <pre style="margin: 0; font-size: 0.8rem;"><code>Projeto-ECAA08/
+├── README.md                  # Visão geral do Visão-AGV (Follow-Me)
+├── index.html                 # Portal principal de acesso rápido
+├── docs/                      # Portal Web GitHub Pages e Simuladores
+│   ├── index.html             # Home do Portal SCADA-Core / Visão-AGV
+│   ├── etapa-01-logica.html   # 15 Slides + Simulador Etapa 01 + Aulas 01-10
+│   ├── etapa-02-grafos.html   # 10 Slides + Emulador Grafos AGV + Aulas 11-18
+│   ├── planta-quimica.html    # Layout Galpão NPK, P&ID e Catálogo ISA-5.1
+│   ├── diretrizes-github.html # Governança Git e Matriz 5W2H
+│   ├── diagrama_agv.png       # Diagrama P&ID Oficial (Setor 300)
+│   ├── css/styles.css         # Design System Industrial Dark/Light
+│   └── js/                    # Motores de Simulação (main.js & etapa-02)
+├── etapa-01-logica/           # Notebooks (.ipynb) e Memoriais (.md) Aulas 01-10
+└── etapa-02-grafos/           # Notebooks (.ipynb) e Algoritmos Aulas 11-18</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. GOVERNANÇA GIT E PADRÃO DE COMMITS -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Versionamento & Rastreabilidade</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">2. Governança de Commits e Auditoria Individual</h2>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-title">🔍 Rastreabilidade de Contribuições no GitHub</div>
+        <p>
+          Todas as entregas de código e documentação técnica são auditadas pelas métricas do Git (<em>Insights</em>, <em>Contributors</em> e histórico de <em>Commits/Pull Requests</em>), garantindo atomicidade, revisão cruzada entre os quatro integrantes e reprodutibilidade dos experimentos em Python/Jupyter e JavaScript.
+        </p>
+      </div>
+
+      <div class="grid-3" style="margin-top: 1.5rem;">
+        <div class="card">
+          <h4 style="color: var(--primary-light); margin-bottom: 0.5rem;">Commits Atômicos</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Cada notebook (`.ipynb`), documento (`.md`) ou módulo de simulação (`.js`) é versionado de forma incremental, registrando claramente a evolução de cada aula.
+          </p>
+        </div>
+
+        <div class="card">
+          <h4 style="color: var(--accent-green); margin-bottom: 0.5rem;">Conventional Commits</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Mensagens padronizadas com prefixos semânticos: <code>feat(etapa-01):</code>, <code>feat(etapa-02):</code>, <code>docs(planta):</code>, <code>fix(simulador):</code>.
+          </p>
+        </div>
+
+        <div class="card">
+          <h4 style="color: var(--accent-color); margin-bottom: 0.5rem;">Validação Executável</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Todos os notebooks possuem células pré-executadas com saídas visíveis e gráficos gerados, além de emuladores web interativos no GitHub Pages.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. MATRIZ 5W2H COMPLETA (ETAPAS 01 E 02) -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Planejamento Executivo PBL</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">3. Matriz 5W2H do Projeto Visão-AGV (Etapas 01 e 02)</h2>
+      </div>
+
+      <p style="margin-bottom: 1.25rem;">
+        Abaixo encontra-se o plano de ação estruturado na metodologia <strong>5W2H</strong> (<em>What, Why, Where, When, Who, How, How Much</em>) detalhando as entregas cumpridas nos Módulos 1 e 2:
+      </p>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 14%;">Pacote / Etapa</th>
+              <th style="width: 18%;">What? (O quê?)</th>
+              <th style="width: 18%;">Why? (Por quê?)</th>
+              <th style="width: 16%;">Where? (Onde?)</th>
+              <th style="width: 10%;">When?</th>
+              <th style="width: 12%;">Who? (Quem?)</th>
+              <th style="width: 12%;">How & How Much?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Etapa 01 • Aulas 01–04</strong><br><small>Lógica Proposicional & P&ID</small></td>
+              <td>Mapeamento ISA-5.1, Permissivo $P_{\text{mov}}$, Tautologia $(F \land m_1) \land (\neg m_1 \lor \neg F) \equiv \mathbf{F}$ e P&ID.</td>
+              <td>Impedir que o AGV atropele o operador ou opere o braço <code>A-301</code> em movimento.</td>
+              <td><code>etapa-01-logica/00</code> a <code>04</code> e <code>diagrama_agv.png</code></td>
+              <td>Módulo 1 (Aulas 01–04)</td>
+              <td>Luiz Fellipi & Daniel Melo</td>
+              <td>Tabelas-verdade ($2^5=32$ estados) • Scan $<10\text{ ms}$.</td>
+            </tr>
+            <tr>
+              <td><strong>Etapa 01 • Aulas 05–07</strong><br><small>Otimização, FOL & Refutação</small></td>
+              <td>Simplificação SymPy com Override $O_m$, Quantificadores ($\forall, \exists$) e Prova por Refutação ($\text{UNSAT}$).</td>
+              <td>Reduzir 60% das portas lógicas no microcontrolador e provar validade SIL 3.</td>
+              <td><code>etapa-01-logica/05</code> a <code>07 (.ipynb / .md)</code></td>
+              <td>Módulo 1 (Aulas 05–07)</td>
+              <td>Daniel Melo & Vinicius Kody</td>
+              <td>SymPy + FOL + SAT Solver • Redução de 10 para 4 portas.</td>
+            </tr>
+            <tr>
+              <td><strong>Etapa 01 • Aulas 08–10</strong><br><small>Sistema Especialista</small></td>
+              <td>Base de conhecimento <code>R-01</code> a <code>R-06</code> e motor híbrido <em>Forward/Backward Chaining</em>.</td>
+              <td>Diagnosticar causa-raiz em tempo real (colisão, queda Wi-Fi, vazamento $\text{NH}_3$, BMS).</td>
+              <td><code>etapa-01-logica/08</code> a <code>10</code> + <code>docs/etapa-01-logica.html</code></td>
+              <td>Módulo 1 (Aulas 08–10)</td>
+              <td>Vinicius Kody & Vinicius Resende</td>
+              <td>Cláusulas de Horn + Simulador JS • Resposta $10\text{ a }500\text{ ms}$.</td>
+            </tr>
+            <tr>
+              <td><strong>Etapa 02 • Aulas 11–14</strong><br><small>Grafos, Matrizes & Dijkstra</small></td>
+              <td>Dígrafo $G=(V,E,W)$ do galpão, balanço $B \cdot \vec{Q} = \vec{S}$, buscas BFS/DFS e menor rota via Dijkstra.</td>
+              <td>Encontrar a rota ótima de $85\text{ m}$ entre <code>ST-01</code> e <code>DEP-401</code> minimizando descarga da bateria.</td>
+              <td><code>etapa-02-grafos/11</code> a <code>14 (.ipynb)</code></td>
+              <td>Módulo 2 (Aulas 11–14)</td>
+              <td>Luiz Fellipi & Daniel Melo</td>
+              <td>NetworkX / NumPy / Min-Heap $O((|V|+|E|)\log|V|)$ • $<1\text{ ms}$.</td>
+            </tr>
+            <tr>
+              <td><strong>Etapa 02 • Aulas 15–18</strong><br><small>Desvio, Euler, TSP & DAG</small></td>
+              <td>Desvio dinâmico ($W \to \infty$), Hierholzer Euleriano, TSP 2-Opt e Ordenação Topológica de Kahn.</td>
+              <td>Desviar de obstáculos/vazamentos, varrer todos os corredores sem repetição e escalonar missões.</td>
+              <td><code>etapa-02-grafos/15</code> a <code>18</code> + <code>docs/etapa-02-grafos.html</code></td>
+              <td>Módulo 2 (Aulas 15–18)</td>
+              <td>Vinicius Kody & Vinicius Resende</td>
+              <td>Hierholzer $O(|E|)$ + 2-Opt + Kahn $O(|V|+|E|)$ + Emulador Web.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NAVEGAÇÃO -->
+    <div style="display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+      <a href="planta-quimica.html" class="btn btn-outline">← Layout Galpão & P&ID</a>
+      <a href="index.html" class="btn btn-primary">Voltar à Página Principal 🏠</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>© 2026.2 ECAA08 Automática • Engenharia de Controle e Automação • UNIFEI</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

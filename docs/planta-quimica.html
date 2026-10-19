@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout do Galpão NPK & P&ID do Visão-AGV | SCADA-Core Automática</title>
+  <link rel="icon" type="image/x-icon" href="https://transparencia.unifei.edu.br/wp-content/uploads/2023/09/cropped-simbolo_RGB-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="scada-badge">GALPÃO & P&ID</span>
+        <span>SCADA-Core / Visão-AGV</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">🏠 Início</a></li>
+        <li><a href="etapa-01-logica.html">⚡ Etapa 01: Lógica</a></li>
+        <li><a href="etapa-02-grafos.html">🕸️ Etapa 02: Grafos AGV</a></li>
+        <li><a href="planta-quimica.html" class="active">🏭 Layout Galpão</a></li>
+        <li><a href="diretrizes-github.html">🐙 GitHub & 5W2H</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Modo Escuro/Claro">☀️</button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-section" style="padding: 3rem 1.5rem 3.5rem;">
+    <div class="hero-container">
+      <span class="hero-tagline">Engenharia de Processos & Mecatrônica • Setor 300 • ECAA08</span>
+      <h1 class="hero-title" style="font-size: 2.3rem;">Layout do Galpão NPK & Arquitetura P&ID do Visão-AGV</h1>
+      <p class="hero-subtitle">
+        Memorial descritivo da Planta Química de Fertilizantes NPK (Área de Risco, Inspeção e Amostragem), conversão cinemática do sistema <em>Follow-Me OpenCV</em>, Diagrama P&ID ISA-5.1 e catálogo oficial de instrumentos e corredores logísticos.
+      </p>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- 1. CONTEXTO E ADAPTAÇÃO FOLLOW-ME -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Arquitetura Mecatrônica & Visão Computacional</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">1. O Sistema Visão-AGV na Planta de Fertilizantes NPK</h2>
+      </div>
+
+      <p style="margin-bottom: 1.25rem;">
+        O projeto <strong>SCADA-Core Automática: Sistema de Controle Visão-AGV</strong> aplica os motores matemáticos da disciplina <strong>ECAA08</strong> ao controle de um <strong>AGV (Automated Guided Vehicle) Logístico de Inspeção e Amostragem Química</strong> operando no <strong>Setor 300</strong> de uma planta de fertilizantes minerais NPK. Em vez de expor operadores humanos diretamente à coleta manual em válvulas de tanques pressurizados de amônia ($\text{NH}_3$) e ácido fosfórico ($\text{H}_3\text{PO}_4$), o robô acompanha o engenheiro de campo em modo <em>Follow-Me</em> (Siga-me) utilizando uma rede neural <strong>MobileNet V2</strong> via OpenCV e assume a operação de acoplamento com seu braço robótico linear.
+      </p>
+
+      <div class="card" style="margin-bottom: 1.5rem; border-color: #38bdf8;">
+        <h4 style="color: #38bdf8; margin-bottom: 0.75rem;">🔄 Conversão de Controle: Do Drone Follow-Me OpenCV para o AGV Terrestre</h4>
+        <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1rem;">
+          A malha de visão computacional foi adaptada diretamente do projeto <a href="https://github.com/LuizFellipiFreire25/Drone-Follow-Me-OpenCV" target="_blank" style="color: #60a5fa; text-decoration: underline;">LuizFellipiFreire25/Drone-Follow-Me-OpenCV</a>. Os controladores Proporcionais (P) calculados sobre as coordenadas da <em>Bounding Box</em> $(x, y, w, h)$ foram remapeados dos 3 eixos de voo de um VANT para os atuadores industriais do AGV:
+        </p>
+        <div class="grid-3">
+          <div class="card" style="background: rgba(56, 189, 248, 0.06); padding: 1rem;">
+            <strong style="color: #38bdf8;">Eixo X (Antigo Roll/Yaw):</strong>
+            <p style="font-size: 0.86rem; color: var(--text-muted); margin-top: 0.4rem;">
+              Convertido para o <strong>Servo Motor de Esterçamento</strong> ($0^\circ\text{ a }180^\circ$), guiando as rodas dianteiras para manter o operador centralizado no quadro da câmera <code>CAM-101</code>.
+            </p>
+          </div>
+          <div class="card" style="background: rgba(16, 185, 129, 0.06); padding: 1rem;">
+            <strong style="color: #10b981;">Eixo Z (Antigo Pitch):</strong>
+            <p style="font-size: 0.86rem; color: var(--text-muted); margin-top: 0.4rem;">
+              Convertido para o sinal <strong>PWM do Motor DC de Tração (<code>M-301</code>)</strong>, acelerando ou freando para manter distância segura pela área da <em>Bounding Box</em> (<code>CAM-102</code>).
+            </p>
+          </div>
+          <div class="card" style="background: rgba(245, 158, 11, 0.06); padding: 1rem;">
+            <strong style="color: #f59e0b;">Eixo Y (Antigo Throttle):</strong>
+            <p style="font-size: 0.86rem; color: var(--text-muted); margin-top: 0.4rem;">
+              Convertido para o <strong>Atuador Linear do Braço de Amostragem (<code>A-301</code>)</strong>, ajustando a elevação e extensão para coleta nos pontos de amostragem.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠️ Requisitos de Segurança Funcional (ISO 13849 / IEC 61508 SIL 3)</div>
+        <p>
+          Como o AGV compartilha corredores com pedestres e circula próximo a linhas de amônia anidra ($\text{NH}_3$, IDLH: $300\text{ ppm}$), qualquer falha de inferência visual, perda de Wi-Fi, travamento de roda ou entrada em nuvem tóxica ($\ge 25\text{ ppm}$) exige <strong>corte determinístico de tração em menos de $10\text{ ms}$</strong> e intertravamento estrito entre o motor de tração e o braço coletor ($a_1 \rightarrow \neg m_1$).
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. INSUMOS QUÍMICOS E REAÇÕES -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Química Industrial & Insumos</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">2. Insumos do Sistema e Reações Monitoradas no Galpão NPK</h2>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">👁️ Insumos de Visão & Navegação</h4>
+          <ul style="padding-left: 1.2rem; font-size: 0.88rem; color: var(--text-muted);">
+            <li><strong>Fluxo de Vídeo RGB (<code>CAM-101</code>):</strong> Inferência MobileNet V2 com limiar de confiança $> 50\%$ ($c_1$).</li>
+            <li><strong>Geometria BBox $(x, y, w, h)$ (<code>CAM-102</code>):</strong> Estimativa de distância frontal e detecção de invasão da zona vermelha $\le 0.5\text{ m}$ ($d_1$).</li>
+            <li><strong>Waypoints RFID / LiDAR:</strong> Marcadores de corredor entre estações logísticas (<code>ST-01</code> a <code>DEP-401</code>).</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4 style="color: #10b981; margin-bottom: 0.5rem;">⚗️ Insumos Químicos da Planta NPK</h4>
+          <ul style="padding-left: 1.2rem; font-size: 0.88rem; color: var(--text-muted);">
+            <li><strong>Amônia Anidra ($\text{NH}_3$):</strong> Fonte de Nitrogênio (N) pressurizada; vazamentos $\ge 25\text{ ppm}$ disparam <code>AT-201</code> ($g_1$).</li>
+            <li><strong>Ácido Fosfórico ($\text{H}_3\text{PO}_4$ - $54\% \text{ P}_2\text{O}_5$):</strong> Fonte de Fósforo (P) para síntese de MAP e DAP no Reator <code>R-101</code>.</li>
+            <li><strong>Cloreto de Potássio ($\text{KCl}$):</strong> Insumo sólido transportado entre a Doca <code>DOC-101</code> e o Almoxarifado <code>ALM-201</code>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4 style="color: #f59e0b; margin-bottom: 0.5rem;">🔋 Insumos de Potência & Segurança</h4>
+          <ul style="padding-left: 1.2rem; font-size: 0.88rem; color: var(--text-muted);">
+            <li><strong>Pack de Lítio BMS (<code>BT-201</code>):</strong> Monitora SoC ($<10\%$ ativa $b_1$) e Temperatura ($\ge 60^\circ\text{C}$ ativa <code>R-06</code>).</li>
+            <li><strong>Encoders & Ponte H (<code>M-301</code>):</strong> Detectam rotor bloqueado (PWM alto com $\text{RPM}=0$, Regra <code>R-03</code>).</li>
+            <li><strong>E-Stop Físico (<code>ESD-200</code>):</strong> Botão cogumelo NF para corte imediato de hardware ($s_1$).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <h4 style="margin-bottom: 0.75rem;">Reações Exotérmicas de Neutralização Amostradas pelo AGV (Estações <code>AMO-301</code> e <code>R-101</code>):</h4>
+        <p style="font-size: 0.95rem; margin-bottom: 0.5rem;">
+          1. <strong>Síntese de MAP (Fosfato Monoamônico):</strong>
+          $$\text{NH}_3\text{ (liq)} + \text{H}_3\text{PO}_4\text{ (aq)} \longrightarrow \text{NH}_4\text{H}_2\text{PO}_4\text{ (slurry)} \quad (\Delta H^\circ = -135\text{ kJ/mol})$$
+        </p>
+        <p style="font-size: 0.95rem;">
+          2. <strong>Síntese de DAP (Fosfato Diamônico):</strong>
+          $$2\,\text{NH}_3\text{ (liq)} + \text{H}_3\text{PO}_4\text{ (aq)} \longrightarrow (\text{NH}_4)_2\text{HPO}_4\text{ (slurry)} \quad (\Delta H^\circ = -228\text{ kJ/mol})$$
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. DIAGRAMA P&ID OFICIAL E TOPOLOGIA DO GALPÃO -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Diagramas ISA-5.1 & Topologia de Grafos</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">3. Diagrama P&ID do Visão-AGV e Malha Logística do Galpão</h2>
+      </div>
+
+      <div class="card" style="margin-bottom: 1.5rem; text-align: center;">
+        <h4 style="color: var(--primary-light); margin-bottom: 0.75rem;">Diagrama P&ID Oficial do Sistema de Controle Robótico do AGV (Norma ISA-5.1 — Setor 300)</h4>
+        <img src="diagrama_agv.png" alt="Diagrama P&ID do AGV Logístico ISA-5.1" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);" />
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;">
+          Figura 1: Arquitetura P&ID mapeando as entradas de visão computacional (<code>CAM-101</code>, <code>CAM-102</code>), sensores de bordo (<code>AT-201</code>, <code>BT-201</code>, <code>ESD-200</code>), controlador lógico embarcado (CLP/SCADA-Core) e atuadores de saída (Alarme <code>ALM-301 / XY-300</code>, Motor DC <code>M-301 / M-401</code> e Cilindro do Braço de Coleta <code>A-301 / CYL-500</code>).
+        </p>
+      </div>
+
+      <div class="card">
+        <h4 style="color: #10b981; margin-bottom: 0.75rem;">Malha Topológica de Navegação do AGV no Galpão Industrial ($G = (V, E, W)$ — Etapa 02)</h4>
+        <pre class="mermaid" style="background: transparent; border: none; padding: 0; text-align: center;">
+graph LR
+    subgraph S300["Malha Logística e Química do Galpão (Setor 300)"]
+        ST01["ST-01: Estação Base & Recarga BMS"]
+        DOC101["DOC-101: Doca de Recebimento NPK"]
+        ALM201["ALM-201: Almoxarifado de Insumos"]
+        AMO301["AMO-301: Ponto de Amostragem Química"]
+        R101["R-101: Reator de Neutralização MAP/DAP"]
+        DEP401["DEP-401: Depósito & Expedição"]
+    end
+
+    ST01 -->|"TAG-01 (15m)"| DOC101
+    ST01 -->|"TAG-02 (45m)"| ALM201
+    DOC101 -->|"TAG-03 (18m)"| ALM201
+    DOC101 -->|"TAG-04 (55m)"| R101
+    ALM201 -->|"TAG-05 (20m)"| AMO301
+    AMO301 -->|"TAG-06 (22m)"| R101
+    AMO301 -->|"TAG-07 (48m)"| DEP401
+    R101 -->|"TAG-08 (15m)"| DEP401
+        </pre>
+      </div>
+    </section>
+
+    <!-- 4. CATÁLOGO DE TAGS ISA-5.1 -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header" style="text-align: left;">
+        <span class="section-tag">Norma ISA-5.1</span>
+        <h2 class="section-title" style="font-size: 1.8rem;">4. Catálogo Oficial de Tags do Visão-AGV e Corredores</h2>
+      </div>
+
+      <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--primary-light);">4.1. Instrumentação Embarcada e Visão Computacional (Etapa 01 — Setor 300)</h3>
+      <div class="table-responsive" style="margin-bottom: 2rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>Tag ISA-5.1</th>
+              <th>Instrumento / Atuador</th>
+              <th>Sinal / Variável</th>
+              <th>Proposição</th>
+              <th>Setpoint / Limiar</th>
+              <th>Significado Lógico (Estado 1 / 0)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>CAM-101</code></td>
+              <td>Câmera Frontal RGB (MobileNet V2)</td>
+              <td>Taxa de Confiança ($0\dots 100\%$)</td>
+              <td>$c_1$</td>
+              <td>$\text{Confiança} > 50\%$</td>
+              <td>$1$: Operador Detectado / $0$: Alvo Perdido</td>
+            </tr>
+            <tr>
+              <td><code>CAM-102</code></td>
+              <td>Medidor Geométrico de Bounding Box</td>
+              <td>Distância / Área ($0.2\dots 5.0\text{ m}$)</td>
+              <td>$d_1$</td>
+              <td>$\text{Distância} \le 0.50\text{ m}$</td>
+              <td>$1$: Zona de Colisão / $0$: Distância Segura</td>
+            </tr>
+            <tr>
+              <td><code>AT-201</code></td>
+              <td>Transmissor/Detector de Gás $\text{NH}_3$</td>
+              <td>$4-20\text{ mA}$ ($0\dots 100\text{ ppm}$)</td>
+              <td>$g_1$</td>
+              <td>$C_{\text{NH}_3} \ge 25\text{ ppm}$</td>
+              <td>$1$: Vazamento Tóxico / $0$: Atmosfera Limpa</td>
+            </tr>
+            <tr>
+              <td><code>BT-201</code></td>
+              <td>Transmissor de Tensão / BMS Lítio</td>
+              <td>Estado de Carga ($0\dots 100\%$)</td>
+              <td>$b_1$</td>
+              <td>$\text{SoC} < 10\%$</td>
+              <td>$1$: Descarga Crítica / $0$: Bateria Normal</td>
+            </tr>
+            <tr>
+              <td><code>ESD-200</code></td>
+              <td>Botão Físico de Emergência (Cogumelo)</td>
+              <td>Contato Seco (NF)</td>
+              <td>$s_1$</td>
+              <td>Circuito Aberto</td>
+              <td>$1$: Emergência Acionada / $0$: Rearmado</td>
+            </tr>
+            <tr>
+              <td><code>M-301</code></td>
+              <td>Motor DC de Tração Principal (Eixo Z)</td>
+              <td>Comando PWM Ponte H</td>
+              <td>$m_1$</td>
+              <td>$P_{\text{mov}} = 1 \land \neg a_1$</td>
+              <td>$1$: Tração Avançando / $0$: Freio Acionado</td>
+            </tr>
+            <tr>
+              <td><code>A-301</code></td>
+              <td>Atuador Linear do Braço Coletor (Eixo Y)</td>
+              <td>Solenoide / Pistão</td>
+              <td>$a_1$</td>
+              <td>$a_1 \rightarrow (\neg m_1 \land \neg F)$</td>
+              <td>$1$: Braço Estendido / $0$: Recolhido</td>
+            </tr>
+            <tr>
+              <td><code>ALM-301</code></td>
+              <td>Giroflex Visual e Sirene Sonora</td>
+              <td>Saída Digital Relé</td>
+              <td>$l_1$</td>
+              <td>$F \lor d_1$</td>
+              <td>$1$: Alarme Ativado / $0$: Silenciado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: #10b981;">4.2. Corredores Dirigidos e Waypoints RFID/LiDAR (Etapa 02 — Malha de Grafos)</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Tag Corredor</th>
+              <th>Origem ($u$) $\rightarrow$ Destino ($v$)</th>
+              <th>Distância Nominal ($W$)</th>
+              <th>Função Operacional na Planta</th>
+              <th>Ação em Bloqueio ($W \to \infty$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>TAG-01</code></td>
+              <td><code>ST-01</code> $\rightarrow$ <code>DOC-101</code></td>
+              <td>$15\text{ m}$</td>
+              <td>Saída rápida da base para a doca de recebimento</td>
+              <td>Desvio pelo corredor secundário <code>TAG-02</code></td>
+            </tr>
+            <tr>
+              <td><code>TAG-02</code></td>
+              <td><code>ST-01</code> $\rightarrow$ <code>ALM-201</code></td>
+              <td>$45\text{ m}$</td>
+              <td>Rota alternativa direta da base ao almoxarifado</td>
+              <td>Rota de contingência quando <code>TAG-01</code>/<code>TAG-03</code> obstruídos</td>
+            </tr>
+            <tr>
+              <td><code>TAG-03</code></td>
+              <td><code>DOC-101</code> $\rightarrow$ <code>ALM-201</code></td>
+              <td>$18\text{ m}$</td>
+              <td>Transporte de insumos entre doca e almoxarifado</td>
+              <td>Recálculo automático via Dijkstra em $<1\text{ ms}$</td>
+            </tr>
+            <tr>
+              <td><code>TAG-04</code></td>
+              <td><code>DOC-101</code> $\rightarrow$ <code>R-101</code></td>
+              <td>$55\text{ m}$</td>
+              <td>Corredor expresso lateral para a área do reator</td>
+              <td>Contingência para bloqueio no setor de amostragem</td>
+            </tr>
+            <tr>
+              <td><code>TAG-05</code></td>
+              <td><code>ALM-201</code> $\rightarrow$ <code>AMO-301</code></td>
+              <td>$20\text{ m}$</td>
+              <td>Acesso principal à baia de amostragem química</td>
+              <td>Interditado se sensor <code>AT-201</code> detectar $\text{NH}_3 \ge 25\text{ ppm}$</td>
+            </tr>
+            <tr>
+              <td><code>TAG-06</code></td>
+              <td><code>AMO-301</code> $\rightarrow$ <code>R-101</code></td>
+              <td>$22\text{ m}$</td>
+              <td>Corredor de inspeção entre amostragem e reator</td>
+              <td>Monitorado continuamente por visão <code>CAM-101/102</code></td>
+            </tr>
+            <tr>
+              <td><code>TAG-07</code></td>
+              <td><code>AMO-301</code> $\rightarrow$ <code>DEP-401</code></td>
+              <td>$48\text{ m}$</td>
+              <td>Rota secundária de escoamento direto ao depósito</td>
+              <td>Ativado quando o corredor do reator (<code>TAG-06</code>) entra em trip</td>
+            </tr>
+            <tr>
+              <td><code>TAG-08</code></td>
+              <td><code>R-101</code> $\rightarrow$ <code>DEP-401</code></td>
+              <td>$15\text{ m}$</td>
+              <td>Saída final do reator para o depósito de expedição</td>
+              <td>Trecho final da rota ótima nominal ($85\text{ m}$ totais)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NAVEGAÇÃO -->
+    <div style="display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+      <a href="index.html" class="btn btn-outline">← Início</a>
+      <a href="etapa-01-logica.html" class="btn btn-primary">Acessar Etapa 01: Lógica Formal →</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>© 2026.2 ECAA08 Automática • Engenharia de Controle e Automação • UNIFEI</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
