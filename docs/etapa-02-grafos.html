@@ -33,12 +33,12 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="../index.html" class="nav-brand">
+      <a href="index.html" class="nav-brand">
         <span class="scada-badge" style="background: linear-gradient(135deg, #2563eb, #06b6d4);">ETAPA 02</span>
         <span>SCADA-Core / Visão-AGV</span>
       </a>
       <ul class="nav-links">
-        <li><a href="../index.html">🏠 Início</a></li>
+        <li><a href="index.html">🏠 Início</a></li>
         <li><a href="etapa-01-logica.html">⚡ Etapa 01: Lógica</a></li>
         <li><a href="etapa-02-grafos.html" class="active">🕸️ Etapa 02: Grafos AGV</a></li>
         <li><a href="#apresentacao">📽️ Apresentação (10 Slides)</a></li>
@@ -257,7 +257,7 @@
             <h3 class="slide-title">Aula 14: Dijkstra e Roteamento Dinâmico em AGVs</h3>
             <p class="slide-subtitle">Minimização da distância total percorrida e economia de bateria com Min-Heap binário</p>
             <div class="slide-body">
-              <p>O **Algoritmo de Dijkstra** determina a menor trajetória em metros do ponto de partida $s$ até o destino $t$ em tempo $O((|V|+|E|)\log |V|)$:</p>
+              <p>O <strong>Algoritmo de Dijkstra</strong> determina a menor trajetória em metros do ponto de partida $s$ até o destino $t$ em tempo $O((|V|+|E|)\log |V|)$:</p>
               $$\text{Operação de Relaxação: se } d[u] + w(u, v) < d[v] \implies d[v] \leftarrow d[u] + w(u, v), \quad \text{pred}[v] \leftarrow u$$
               <div class="grid-3" style="margin-top: 1rem;">
                 <div class="card" style="padding: 1rem;">
@@ -365,7 +365,7 @@
             <h3 class="slide-title">Aula 18: Grafos de Logística de Insumos e Produtos Acabados</h3>
             <p class="slide-subtitle">Redes multicamada ($G_M, G_V$), fluxo irreversível de produção (DAG) e ordenação topológica via Algoritmo de Kahn</p>
             <div class="slide-body">
-              <p>O fluxo de materiais do galpão forma um **Grafo Acíclico Dirigido (DAG)**, onde as etapas de transformação não podem ser invertidas:</p>
+              <p>O fluxo de materiais do galpão forma um <strong>Grafo Acíclico Dirigido (DAG)</strong>, onde as etapas de transformação não podem ser invertidas:</p>
               <div class="grid-2" style="margin-top: 0.75rem;">
                 <div class="card" style="padding: 1rem;">
                   <strong style="color: #38bdf8;">Redes Multicamada no AGV:</strong>
@@ -589,145 +589,399 @@
          =================================================== -->
     <section id="aulas-detalhadas" style="margin-top: 4rem; margin-bottom: 5rem;">
       <div class="section-header">
-        <span class="section-tag" style="color: #06b6d4;">Memorial do Projeto Visão-AGV</span>
+        <span class="section-tag" style="color: #06b6d4;">Memorial Técnico-Matemático • Projeto Visão-AGV</span>
         <h2 class="section-title">Documentação Completa dos Notebooks (Aulas 11 a 18)</h2>
         <p class="section-subtitle">
-          Fundamentos matemáticos, implementações em Python e integrações de controle dos notebooks desenvolvidos para o roteamento autônomo e logística do AGV.
+          Fundamentos algébricos de Teoria dos Grafos, demonstrações formais, algoritmos em Python e integrações ciberfísicas com os sensores e atuadores do <strong>Visão-AGV / SCADA-Core</strong>.
         </p>
       </div>
 
       <!-- AULA 11 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 11 • Modelagem</span>
+          <span class="module-badge badge-mod1">Aula 11 • Modelagem Topológica</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 11 - Modelagem da Malha de Navegação do AGV Logístico.ipynb</span>
         </div>
         <h3 class="card-title">Aula 11: Modelagem da Malha de Navegação do AGV Logístico</h3>
         <p class="card-description">
-          Mapeamento do chão de fábrica como um dígrafo ponderado $G = (V, E, W)$, associação de waypoints a estações de trabalho e tags de RFID/LiDAR, e validação topológica da rede via Lema do Aperto de Mãos.
+          Discretização espacial do galpão da planta de fertilizantes NPK como um dígrafo ponderado $G = (V, E, W)$, mapeamento das 6 estações RFID/LiDAR e 8 corredores dirigidos (<code>TAG-01</code> a <code>TAG-08</code>), auditoria via Lema do Aperto de Mãos e acoplamento aos 3 eixos mecatrônicos do Visão-AGV.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
-          <h4 style="color: #38bdf8; margin: 1rem 0 0.4rem;">1. Formalização da Malha de Navegação do Veículo</h4>
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Formalização do Dígrafo Ponderado $G = (V, E, W)$</h4>
           <p>
-            A malha do galpão é representada pela tripla $G = (V, E, W)$, em que os vértices $V$ são os waypoints e as arestas $E$ representam os corredores transitáveis com distâncias físicas $W$:
+            A malha de circulação do veículo autônomo no Setor 300 é definida pela tripla $G = (V, E, W)$, com $|V| = 6$ estações (waypoints demarcados por tags RFID passivas no piso) e $|E| = 8$ corredores dirigidos ponderados pela função de custo métrico $W: E \to \mathbb{R}_+^*$ (distância física em metros):
           </p>
-          $$V = \{\text{ST-01 (Base)}, \text{DOC-101 (Doca)}, \text{ALM-201 (Almoxarifado)}, \text{AMO-301 (Amostragem)}, \text{R-101 (Processo)}, \text{DEP-401 (Depósito)}\}$$
-          <h4 style="color: #38bdf8; margin: 1rem 0 0.4rem;">2. Auditoria da Malha com o Lema do Aperto de Mãos</h4>
+          $$V = \{\text{ST-01}, \text{DOC-101}, \text{ALM-201}, \text{AMO-301}, \text{R-101}, \text{DEP-401}\}, \qquad \sum_{e \in E} W(e) = 144{,}0\text{ m}$$
+
+          <div class="grid-2" style="margin-top: 1rem; gap: 1.25rem;">
+            <div class="table-responsive" style="margin: 0;">
+              <table>
+                <thead>
+                  <tr><th>Estação ($v_i$)</th><th>$\deg^-(v_i)$</th><th>$\deg^+(v_i)$</th><th>$\deg(v_i)$</th><th>Papel Operacional no Galpão</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>ST-01</code></td><td>1</td><td>2</td><td>3 (Ímpar)</td><td>Estação Base, Recarga BMS (<code>BT-201</code>) e Partida</td></tr>
+                  <tr><td><code>DOC-101</code></td><td>1</td><td>1</td><td>2 (Par)</td><td>Doca A — Recebimento de Insumos Brutos</td></tr>
+                  <tr><td><code>ALM-201</code></td><td>2</td><td>1</td><td>3 (Ímpar)</td><td>Almoxarifado Químico (Vértice de Articulação)</td></tr>
+                  <tr><td><code>AMO-301</code></td><td>1</td><td>2</td><td>3 (Ímpar)</td><td>Laboratório / Coleta do Braço <code>A-301</code> (Articulação)</td></tr>
+                  <tr><td><code>R-101</code></td><td>1</td><td>1</td><td>2 (Par)</td><td>Reator de Neutralização NPK (Zona <code>AT-201</code> $\text{NH}_3$)</td></tr>
+                  <tr><td><code>DEP-401</code></td><td>2</td><td>1</td><td>3 (Ímpar)</td><td>Depósito B — Expedição de NPK Granulado</td></tr>
+                  <tr style="border-top: 2px solid #1e3a5f; font-weight: bold;">
+                    <td>Soma Total</td><td>$\sum \deg^- = 8$</td><td>$\sum \deg^+ = 8$</td><td>$\sum \deg = 16$</td><td>Consistência: $\sum \deg^- = \sum \deg^+ = |E| = 8$</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-responsive" style="margin: 0;">
+              <table>
+                <thead>
+                  <tr><th>Tag RFID</th><th>Corredor Dirigido $(u \to v)$</th><th>Peso $W(e)$</th><th>Classificação Topológica</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>TAG-01</code></td><td>$\text{ST-01} \to \text{DOC-101}$</td><td>$10\text{ m}$</td><td>Ramo Secundário (Acesso Doca A)</td></tr>
+                  <tr><td><code>TAG-02</code></td><td>$\text{ST-01} \to \text{ALM-201}$</td><td>$12\text{ m}$</td><td>Ramo Principal de Partida</td></tr>
+                  <tr><td><code>TAG-03</code></td><td>$\text{DOC-101} \to \text{ALM-201}$</td><td>$15\text{ m}$</td><td>Alimentação Doca $\to$ Almoxarifado</td></tr>
+                  <tr><td><code>TAG-04</code></td><td>$\text{ALM-201} \to \text{AMO-301}$</td><td>$20\text{ m}$</td><td><strong>Ponte Crítica</strong> (Gargalo Estrutural)</td></tr>
+                  <tr><td><code>TAG-05</code></td><td>$\text{AMO-301} \to \text{R-101}$</td><td>$18\text{ m}$</td><td>Desvio / Acesso ao Reator NPK</td></tr>
+                  <tr><td><code>TAG-06</code></td><td>$\text{AMO-301} \to \text{DEP-401}$</td><td>$14\text{ m}$</td><td>Corredor Direto de Expedição</td></tr>
+                  <tr><td><code>TAG-07</code></td><td>$\text{R-101} \to \text{DEP-401}$</td><td>$25\text{ m}$</td><td>Saída do Reator $\to$ Depósito B</td></tr>
+                  <tr><td><code>TAG-08</code></td><td>$\text{DEP-401} \to \text{ST-01}$</td><td>$30\text{ m}$</td><td>Anel de Retorno à Base de Recarga</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h4 style="color: #38bdf8; margin: 1.25rem 0 0.4rem;">2. Lema do Aperto de Mãos e Integração com os 3 Eixos do Visão-AGV</h4>
           <p>
-            A consistência das conexões do galpão é verificada algebricamente garantindo que a soma dos graus de saída seja igual à soma dos graus de entrada: $\sum \deg^+(v) = \sum \deg^-(v) = |E|$. Esta verificação impede que o sistema SCADA envie comandos para corredores sem saída não catalogados.
+            A auditoria estática de malha aplica o <strong>Lema do Aperto de Mãos Dirigido</strong> ($\sum_{v \in V} \deg^+(v) = \sum_{v \in V} \deg^-(v) = |E| = 8$) e sua forma não-dirigida ($\sum_{v \in V} \deg(v) = 2|E| = 16$), garantindo ausência de arestas órfãs ou sumidouros acidentais ($\deg^+(v) = 0$):
           </p>
+          <ul style="padding-left: 1.25rem; margin-top: 0.4rem; color: var(--text-muted);">
+            <li><strong>Eixo Z (Tração Longitudinal — Motor <code>M-301</code>):</strong> Atua ao longo das <em>arestas</em> $e \in E$ percorrendo as distâncias $W(u,v)$, condicionado pela lógica segura da Etapa 01: alvo humano engajado em <code>CAM-101</code> ($p_1 \land l_1$), corredor livre em <code>CAM-102</code> ($\neg d_1$), atmosfera segura em <code>AT-201</code> ($\neg g_1$) e carga de bateria em <code>BT-201</code> ($\neg b_1$).</li>
+            <li><strong>Eixo X (Direção Angular — <code>Servo-X</code>):</strong> Atua nos <em>vértices de bifurcação</em> ($\deg^+(v) \ge 2$, especificamente <code>ST-01</code> e <code>AMO-301</code>), aplicando o ângulo de esterçamento $\theta_X$ para alinhar o chassi ao corredor de saída selecionado pelo algoritmo de roteamento.</li>
+            <li><strong>Eixo Y (Manipulação Vertical — Braço Robótico <code>A-301</code>):</strong> Atua exclusivamente quando o AGV encontra-se estacionado nos <em>vértices de processo/amostragem</em> (<code>AMO-301</code>, <code>R-101</code>, <code>ALM-201</code>), sob intertravamento rígido $a_1 \rightarrow \neg m_1$ (proibição de movimento do braço com motor de tração ativo).</li>
+          </ul>
         </div>
       </article>
 
       <!-- AULA 12 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 12 • Balanço de Tráfego</span>
+          <span class="module-badge badge-mod1">Aula 12 • Álgebra Linear de Grafos</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 12 - Matrizes de Incidência, Adjacência e Balanço de Tráfego de AGVs.ipynb</span>
         </div>
         <h3 class="card-title">Aula 12: Matrizes de Incidência, Adjacência e Balanço de Tráfego de AGVs</h3>
         <p class="card-description">
-          Representação matricial da infraestrutura ($B \in \{-1, 0, +1\}^{n \times m}$), prova da propriedade de soma nula por coluna e formulação do balanço do tráfego de frotas pelo sistema de equações $B \cdot \vec{Q} = \vec{S}$.
+          Codificação algébrica da malha nas matrizes de Incidência $B \in \{-1, 0, +1\}^{6 \times 8}$, Adjacência $A \in \{0,1\}^{6 \times 6}$, Pesos $W \in \mathbb{R}^{6 \times 6}$ e Laplaciana $L = B B^T$, demonstrando a conservação de frota via Lei de Kirchhoff ($B \cdot \vec{Q} = \vec{S}$), posto matricial e número ciclomático.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
-          <h4 style="color: #38bdf8; margin: 1rem 0 0.4rem;">1. Matriz de Incidência $B$ e Preservação da Frota</h4>
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Matriz de Incidência Vértice-Aresta $B$ e Soma Nula por Coluna</h4>
           <p>
-            Cada coluna de $B$ representa um corredor entre dois waypoints. A soma de cada coluna resulta rigorosamente em zero, garantindo a conservação física do número de robôs em circulação na planta.
+            Ordenando as estações como $(v_1, \dots, v_6) = (\text{ST-01}, \text{DOC-101}, \text{ALM-201}, \text{AMO-301}, \text{R-101}, \text{DEP-401})$ e os corredores como $(e_1, \dots, e_8) = (\text{TAG-01}, \dots, \text{TAG-08})$, a matriz de incidência $B_{6 \times 8}$ com convenção $B[i,j] = -1$ (partida) e $B[i,j] = +1$ (chegada) é dada por:
           </p>
-          <h4 style="color: #38bdf8; margin: 1rem 0 0.4rem;">2. Equação de Balanço de Tráfego</h4>
-          $$\text{Equação Fundamental: } B \cdot \vec{Q} = \vec{S}$$
+          $$B = \begin{bmatrix}
+          -1 & -1 & 0 & 0 & 0 & 0 & 0 & +1 \\
+          +1 & 0 & -1 & 0 & 0 & 0 & 0 & 0 \\
+          0 & +1 & +1 & -1 & 0 & 0 & 0 & 0 \\
+          0 & 0 & 0 & +1 & -1 & -1 & 0 & 0 \\
+          0 & 0 & 0 & 0 & +1 & 0 & -1 & 0 \\
+          0 & 0 & 0 & 0 & 0 & +1 & +1 & -1
+          \end{bmatrix} \quad \implies \quad \mathbf{1}^T B = \vec{0}^T \;\; \left(\sum_{i=1}^{6} B[i,j] = 0, \;\forall j \in \{1,\dots,8\}\right)$$
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. Primeira Lei de Kirchhoff para Tráfego de Frotas ($B \cdot \vec{Q} = \vec{S}$)</h4>
           <p>
-            Onde $\vec{Q}$ é o vetor de vazão de veículos por hora em cada corredor e $\vec{S}$ registra a taxa de despacho e chegada de AGVs nas docas e áreas de estoque.
+            Seja $\vec{Q} = [q_1, q_2, \dots, q_8]^T \in \mathbb{R}^8$ o vetor de fluxo de veículos (AGVs/hora) atravessando cada corredor <code>TAG-01</code> a <code>TAG-08</code>, e $\vec{S} = [s_1, \dots, s_6]^T \in \mathbb{R}^6$ o vetor de taxa líquida de injeção/retirada de veículos nas estações. O balanço nodal em cada estação $v_i$ obedece à conservação exata:
+          </p>
+          $$B \cdot \vec{Q} = \vec{S} \quad \Longleftrightarrow \quad \sum_{e_j \in \delta^-(v_i)} q_j - \sum_{e_j \in \delta^+(v_i)} q_j = s_i, \qquad \text{com } \vec{Q} \in \ker(B) \iff B \cdot \vec{Q} = \vec{0} \text{ (regime estacionário fechado)}$$
+          <p>
+            Como $\mathbf{1}^T B = \vec{0}^T$, a condição de compatibilidade física exige $\mathbf{1}^T \vec{S} = \sum_{i=1}^6 s_i = 0$: nenhum AGV desaparece ou surge espontaneamente nos corredores. Qualquer resíduo $\|B \cdot \vec{Q}_{\text{medido}} - \vec{S}\|_\infty > \epsilon$ acusa imediatamente perda de comunicação RFID ou retenção indevida (travamento mecânico) de um robô no trecho.
+          </p>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Matriz Laplaciana $L = B B^T$, Posto e Número Ciclomático</h4>
+          <p>
+            O produto simétrico $L = B B^T = D - A_{\text{sim}} \in \mathbb{R}^{6 \times 6}$ define a <strong>Matriz Laplaciana</strong> do grafo subjacente, onde $D = \text{diag}(3, 2, 3, 3, 2, 3)$ é a matriz diagonal de graus totais e $A_{\text{sim}}$ é a adjacência simetrizada. Para qualquer potencial nodal $\vec{x} \in \mathbb{R}^6$, a forma quadrática satisfaz $\vec{x}^T L \vec{x} = \|B^T \vec{x}\|_2^2 = \sum_{(u,v) \in E} (x_u - x_v)^2 \ge 0$ ($L$ é semidefinida positiva). Como a malha possui $c = 1$ única componente conexa ($\lambda_1(L) = 0, \lambda_2(L) > 0$):
+          </p>
+          $$\text{rank}(B) = \text{rank}(L) = n - c = 6 - 1 = 5, \qquad \nu(G) = \dim(\ker(B)) = m - n + c = 8 - 6 + 1 = 3 \text{ ciclos fundamentais independentes}$$
+          <p>
+            Os $\nu = 3$ ciclos independentes da base do espaço nulo $\ker(B)$ correspondem exatamente às malhas alternativas do galpão: (i) contorno pela Doca A (<code>ST-01</code>–<code>DOC-101</code>–<code>ALM-201</code>), (ii) contorno pelo Reator (<code>AMO-301</code>–<code>R-101</code>–<code>DEP-401</code>) e (iii) o grande anel fechado de retorno via <code>TAG-08</code> (<code>DEP-401 ➔ ST-01</code>).
           </p>
         </div>
       </article>
 
       <!-- AULA 13 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 13 • Algoritmos de Busca</span>
+          <span class="module-badge badge-mod1">Aula 13 • Buscas Sistemáticas & Conectividade</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 13 - Algoritmos de Busca BFS e DFS em Redes de Mapeamento e Roteamento Industrial.ipynb</span>
         </div>
         <h3 class="card-title">Aula 13: Algoritmos de Busca BFS e DFS em Redes de Mapeamento e Roteamento Industrial</h3>
         <p class="card-description">
-          Exploração topológica de caminhos. Implementação do `BFS_AGV_Router` (fila FIFO) para rotas com menor número de paradas intermediárias e `DFS_AGV_PathFinder` (pilha LIFO) para mapeamento de rotas de contingência.
+          Exploração sistemática em $O(|V|+|E|)$ via Busca em Largura (<code>BFS_AGV_Router</code> com fila FIFO) e Busca em Profundidade (<code>DFS_AGV_PathFinder</code> com pilha LIFO e <em>backtracking</em>), enumeração das 4 rotas entre <code>ST-01</code> e <code>DEP-401</code> e análise de Vértices de Articulação (<em>Cut-Vertices</em>).
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
-          <div class="table-responsive">
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Comparação Analítica: BFS (Fila FIFO) vs. DFS (Pilha LIFO)</h4>
+          <div class="table-responsive" style="margin-bottom: 1rem;">
             <table>
-              <tr><th>Algoritmo</th><th>Estrutura</th><th>Uso Principal no Visão-AGV</th><th>Complexidade</th></tr>
-              <tr><td><strong>BFS (Largura)</strong></td><td>Fila FIFO</td><td>Menor quantidade de cruzamentos/paradas entre estações</td><td>$O(\vert{}V\vert{}+\vert{}E\vert{})$</td></tr>
-              <tr><td><strong>DFS (Profundidade)</strong></td><td>Pilha LIFO</td><td>Mapeamento exaustivo de rotas de contingência e ciclos</td><td>$O(\vert{}V\vert{}+\vert{}E\vert{})$</td></tr>
+              <thead>
+                <tr><th>Critério Técnico</th><th>Busca em Largura (BFS — <em>Breadth-First Search</em>)</th><th>Busca em Profundidade (DFS — <em>Depth-First Search</em>)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Estrutura de Dados</strong></td><td>Fila FIFO (<code>collections.deque</code> — <code>popleft()</code>)</td><td>Pilha LIFO explícita ou recursão com <em>backtracking</em></td></tr>
+                <tr><td><strong>Complexidade Temporal / Espacial</strong></td><td>$\mathcal{O}(|V| + |E|)$ tempo / $\mathcal{O}(|V|)$ memória</td><td>$\mathcal{O}(|V| + |E|)$ tempo / $\mathcal{O}(|V|)$ memória</td></tr>
+                <tr><td><strong>Propriedade de Otimalidade</strong></td><td>Garante o caminho com <strong>menor número de paradas/saltos (hops)</strong></td><td>Não garante caminho mínimo; explora ramos até o fim antes de retroceder</td></tr>
+                <tr><td><strong>Aplicação no Visão-AGV</strong></td><td>Minimizar frenagens e manobras de <code>Servo-X</code> em cruzamentos RFID</td><td>Enumeração completa de rotas de contingência, detecção de ciclos e pontes</td></tr>
+              </tbody>
             </table>
           </div>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. As 4 Rotas Dirigidas Simples de <code>ST-01</code> a <code>DEP-401</code></h4>
+          <p>
+            A varredura exaustiva com <em>backtracking</em> da DFS a partir da estação base <code>ST-01</code> até o depósito de expedição <code>DEP-401</code> revela exatamente <strong>4 trajetórias dirigidas acíclicas</strong>:
+          </p>
+          <div class="table-responsive" style="margin-bottom: 1rem;">
+            <table>
+              <thead>
+                <tr><th>ID da Rota</th><th>Sequência de Estações (Waypoints)</th><th>Tags de Corredor Acionadas</th><th>Saltos (Hops)</th><th>Distância Física Total</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Rota 1 (Nominal / BFS)</strong></td>
+                  <td><code>ST-01 ➔ ALM-201 ➔ AMO-301 ➔ DEP-401</code></td>
+                  <td><code>TAG-02</code>, <code>TAG-04</code>, <code>TAG-06</code></td>
+                  <td><strong>3 arestas</strong></td>
+                  <td>$12 + 20 + 14 = \mathbf{46{,}0\text{ m}}$</td>
+                </tr>
+                <tr>
+                  <td><strong>Rota 2 (Via Doca A)</strong></td>
+                  <td><code>ST-01 ➔ DOC-101 ➔ ALM-201 ➔ AMO-301 ➔ DEP-401</code></td>
+                  <td><code>TAG-01</code>, <code>TAG-03</code>, <code>TAG-04</code>, <code>TAG-06</code></td>
+                  <td>4 arestas</td>
+                  <td>$10 + 15 + 20 + 14 = \mathbf{59{,}0\text{ m}}$</td>
+                </tr>
+                <tr>
+                  <td><strong>Rota 3 (Via Reator NPK)</strong></td>
+                  <td><code>ST-01 ➔ ALM-201 ➔ AMO-301 ➔ R-101 ➔ DEP-401</code></td>
+                  <td><code>TAG-02</code>, <code>TAG-04</code>, <code>TAG-05</code>, <code>TAG-07</code></td>
+                  <td>4 arestas</td>
+                  <td>$12 + 20 + 18 + 25 = \mathbf{75{,}0\text{ m}}$</td>
+                </tr>
+                <tr>
+                  <td><strong>Rota 4 (Contorno Duplo)</strong></td>
+                  <td><code>ST-01 ➔ DOC-101 ➔ ALM-201 ➔ AMO-301 ➔ R-101 ➔ DEP-401</code></td>
+                  <td><code>TAG-01</code>, <code>TAG-03</code>, <code>TAG-04</code>, <code>TAG-05</code>, <code>TAG-07</code></td>
+                  <td>5 arestas</td>
+                  <td>$10 + 15 + 20 + 18 + 25 = \mathbf{88{,}0\text{ m}}$</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Bloqueio de Nó Redundante vs. Vértice de Articulação (<code>AMO-301</code> e <code>ALM-201</code>)</h4>
+          <p>
+            A inspeção da interseção dos conjuntos de vértices das 4 rotas ($\bigcap_{k=1}^4 V(\mathcal{P}_k) = \{\text{ST-01}, \text{ALM-201}, \text{AMO-301}, \text{DEP-401}\}$) comprova dois regimes distintos de resiliência:
+          </p>
+          <ul style="padding-left: 1.25rem; margin-top: 0.4rem; color: var(--text-muted);">
+            <li><strong>Interdição de Nó Redundante (<code>DOC-101</code> ou <code>R-101</code>):</strong> Caso o Reator <code>R-101</code> seja isolado por vazamento de amônia (<code>AT-201</code>), as Rotas 3 e 4 são desativadas, mas as <strong>Rotas 1 e 2 permanecem 100% operacionais</strong>. Analogamente, se a Doca <code>DOC-101</code> for interditada, restam as Rotas 1 e 3.</li>
+            <li><strong>Interdição de Vértice de Articulação (<em>Cut-Vertex</em> <code>AMO-301</code> ou <code>ALM-201</code>):</strong> A remoção de <code>AMO-301</code> (ou <code>ALM-201</code>) reduz o número de rotas disponíveis de 4 para <strong>zero</strong>, particionando o grafo entre a zona de suprimento ($\{\text{ST-01}, \text{DOC-101}, \text{ALM-201}\}$) e a zona de processo/expedição ($\{\text{R-101}, \text{DEP-401}\}$). Por isso, <code>AMO-301</code> e <code>ALM-201</code> recebem prioridade máxima de desobstrução no supervisório SCADA.</li>
+          </ul>
         </div>
       </article>
 
       <!-- AULA 14 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 14 • Caminho Mínimo</span>
+          <span class="module-badge badge-mod1">Aula 14 • Caminho Mínimo Ponderado</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 14 - Dijkstra e Roteamento Dinamico em AGVs.ipynb</span>
         </div>
         <h3 class="card-title">Aula 14: Dijkstra e Roteamento Dinâmico em AGVs</h3>
         <p class="card-description">
-          Cálculo do caminho físico mais curto em metros percorrido pelo AGV utilizando o Algoritmo de Dijkstra otimizado com Fila de Prioridade Min-Heap (`heapq`).
+          Otimização da distância física percorrida e do consumo energético do BMS (<code>BT-201</code>) via Algoritmo de Dijkstra com Fila de Prioridade Min-Heap (<code>heapq</code>), análise da operação de relaxação e comparação teórica com Bellman-Ford na presença de regeneração elétrica.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Equação de Relaxação e Complexidade com Min-Heap Binário</h4>
           <p>
-            O algoritmo minimiza a distância percorrida pelo veículo, economizando diretamente a carga da bateria e aumentando a vida útil dos motores de tração. A reconstrução da rota ocorre pelo vetor de predecessores obtido na relaxação das arestas.
+            Dado um vértice de origem $s \in V$, o Algoritmo de Dijkstra mantém estimativas superiores de distância $d[v]$ inicializadas com $d[s] = 0$ e $d[v] = +\infty$ ($\forall v \neq s$). A cada iteração, extrai-se da fila de prioridade <code>heapq</code> o vértice aberto $u \notin S$ com menor $d[u]$ e aplica-se a <strong>equação de relaxação</strong> a todas as arestas de saída $(u,v) \in E$:
           </p>
+          $$\text{Se } d[u] + W(u, v) < d[v] \quad \Longrightarrow \quad \begin{cases} d[v] \leftarrow d[u] + W(u, v) \\ \text{pred}[v] \leftarrow u \end{cases}$$
+          <p>
+            Com o Min-Heap binário (<code>heapq.heappush</code> / <code>heappop</code>), as $|V|$ extrações de mínimo custam $\mathcal{O}(|V|\log |V|)$ e as $|E|$ relaxações custam $\mathcal{O}(|E|\log |V|)$, resultando em complexidade total $\mathcal{O}((|V| + |E|)\log |V|)$ — dramaticamente superior à busca linear $\mathcal{O}(|V|^2)$ em malhas industriais esparsas.
+          </p>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. Por que Pesos Negativos (Regeneração de Bateria em Declive) Exigem Bellman-Ford?</h4>
+          <p>
+            A corretude de Dijkstra repousa na premissa de pesos não-negativos ($W(u,v) \ge 0$): quando um vértice $u$ é extraído do Min-Heap e inserido no conjunto fechado $S$, assume-se que nenhum caminho futuro passando por vértices ainda abertos poderá reduzir $d[u]$ (monotonicidade do custo acumulado).
+          </p>
+          <p>
+            Todavia, se a função de custo modelar o <strong>balanço líquido de energia elétrica da bateria <code>BT-201</code> ($\Delta E$ em Wh)</strong> em galpões com rampas em declive onde o motor <code>M-301</code> atua como gerador (<strong>frenagem regenerativa</strong>, $\Delta E(u,v) < 0$), um caminho mais longo em metros que passe por uma rampa regenerativa pode reduzir o custo acumulado de um nó já fechado por Dijkstra, levando o algoritmo guloso a falhar. Nesse cenário energético com arestas negativas ($W(u,v) < 0$), deve-se empregar o <strong>Algoritmo de Bellman-Ford</strong>, que relaxa todas as $|E|$ arestas $|V|-1$ vezes em tempo $\mathcal{O}(|V|\cdot|E|)$ e realiza uma $|V|$-ésima passagem para detectar ciclos absorventes de peso negativo.
+          </p>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Rastreamento da Rota Nominal Ótima ($46{,}0\text{ m}$)</h4>
+          <p>
+            Para $s = \text{ST-01}$ e $t = \text{DEP-401}$ em condições nominais ($W(e) > 0$ em metros), a evolução das distâncias mínimas converge em $t_{\text{dec}} < 0{,}1\text{ ms}$ para:
+          </p>
+          $$d[\text{ST-01}] = 0\text{ m} \xrightarrow{\text{TAG-02 }(12\text{ m})} d[\text{ALM-201}] = 12\text{ m} \xrightarrow{\text{TAG-04 }(20\text{ m})} d[\text{AMO-301}] = 32\text{ m} \xrightarrow{\text{TAG-06 }(14\text{ m})} d[\text{DEP-401}] = \mathbf{46{,}0\text{ m}}$$
         </div>
       </article>
 
       <!-- AULA 15 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 15 • Desvio de Obstáculos</span>
+          <span class="module-badge badge-mod1">Aula 15 • Reconfiguração Dinâmica & Pontes</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 15 - Desvio Automatico de Obstaculos em AGVs.ipynb</span>
         </div>
-        <h3 class="card-title">Aula 15: Desvio Automático de Obstáculos em AGVs</h3>
+        <h3 class="card-title">Aula 15: Desvio Automático de Obstáculos e Detecção de Pontes (Tarjan)</h3>
         <p class="card-description">
-          Simulação de obstruções no galpão em tempo real. Atualização dinâmica de peso $W(u, v) \leftarrow \infty$ ao detectar pedestres ou cargas caídas via LiDAR/RFID e recálculo do trajeto alternativo em milissegundos.
+          Acoplamento em malha fechada entre os sensores de segurança (<code>CAM-102</code> e <code>AT-201</code>) e o motor de grafos via penalização $W(u,v) \leftarrow \infty$, análise comparativa dos 3 cenários de bloqueio (<code>TAG-06</code>, <code>TAG-02</code> e Ponte Crítica <code>TAG-04</code> com Trip SIS IEC 61511) e Algoritmo de Tarjan.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
-          <h4 style="color: #38bdf8; margin: 1rem 0 0.4rem;">1. Roteamento em Malha Fechada</h4>
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Integração Ciberfísica com <code>CAM-102</code> ($d_1$) e <code>AT-201</code> ($g_1$)</h4>
           <p>
-            A interrupção de um corredor bloqueado dispara o recálculo do caminho alternativo em tempo de execução ($t_{\text{recálculo}} < 0.2\text{ ms}$), evitando paradas bruscas e permitindo a transição suave do robô.
+            Na Etapa 01, um obstáculo frontal detectado pela câmera <code>CAM-102</code> (área do <em>Bounding Box</em> acima do limiar, $d_1 = 1$) ou um vazamento de amônia detectado por <code>AT-201</code> ($\text{NH}_3 > 25\text{ ppm}$, $g_1 = 1$) forçava a parada imediata do motor <code>M-301</code>. Na Etapa 02, o supervisório intercepta esses eventos lógicos e atualiza instantaneamente o peso do corredor afetado $e = (u,v)$:
+          </p>
+          $$d_1(e) \lor g_1(e) = 1 \quad \Longrightarrow \quad W'(u,v) \leftarrow +\infty \quad \Longrightarrow \quad \mathcal{P}^*_{\text{contingência}} = \text{Dijkstra}(G(V, E, W'), s, t)$$
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. Análise Comparativa dos Três Cenários de Bloqueio de Corredor</h4>
+          <div class="table-responsive" style="margin-bottom: 1rem;">
+            <table>
+              <thead>
+                <tr><th>Cenário de Falha / Evento Sensor</th><th>Corredor Isolado ($W \leftarrow \infty$)</th><th>Nova Rota Calculada por Dijkstra</th><th>Custo ($d[t]$)</th><th>Ação nos Atuadores do Visão-AGV</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nominal (Sem Obstáculos)</strong></td>
+                  <td>Nenhum ($d_1=0, g_1=0$)</td>
+                  <td><code>ST-01 ➔ ALM-201 ➔ AMO-301 ➔ DEP-401</code></td>
+                  <td>$\mathbf{46{,}0\text{ m}}$</td>
+                  <td><code>M-301 = ON</code>, <code>Servo-X = 0°</code>, <code>ALM-301 = OFF</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Obstáculo no Corredor Direto</strong><br><small>(Pedestre/palete em <code>CAM-102</code>)</small></td>
+                  <td><code>TAG-06</code> ($\text{AMO-301} \to \text{DEP-401}$)</td>
+                  <td><code>ST-01 ➔ ALM-201 ➔ AMO-301 ➔ R-101 ➔ DEP-401</code></td>
+                  <td>$\mathbf{75{,}0\text{ m}}$<br><small>($+29{,}0\text{ m}$)</small></td>
+                  <td><code>M-301 = ON</code>, <code>Servo-X = +28°</code> (desvio p/ <code>R-101</code> em $t_{\text{dec}} < 0{,}2\text{ ms}$)</td>
+                </tr>
+                <tr>
+                  <td><strong>Interdição no Acesso ao Almoxarifado</strong><br><small>(Empilhadeira no corredor <code>TAG-02</code>)</small></td>
+                  <td><code>TAG-02</code> ($\text{ST-01} \to \text{ALM-201}$)</td>
+                  <td><code>ST-01 ➔ DOC-101 ➔ ALM-201 ➔ AMO-301 ➔ DEP-401</code></td>
+                  <td>$\mathbf{59{,}0\text{ m}}$<br><small>($+13{,}0\text{ m}$)</small></td>
+                  <td><code>M-301 = ON</code>, <code>Servo-X = -24°</code> (comuta na partida via Doca A <code>DOC-101</code>)</td>
+                </tr>
+                <tr style="background: rgba(239, 68, 68, 0.08);">
+                  <td><strong>Bloqueio da Ponte Crítica</strong><br><small>(Vazamento $\text{NH}_3$ <code>AT-201</code> / Queda de carga)</small></td>
+                  <td><strong><code>TAG-04</code> ($\text{ALM-201} \to \text{AMO-301}$)</strong></td>
+                  <td><strong>Inalcançável ($\mathcal{P}^* = \varnothing$)</strong></td>
+                  <td>$\mathbf{+\infty}$</td>
+                  <td><strong>TRIP SIS IEC 61511:</strong> <code>M-301 = OFF</code> (Freio Emergência) e <code>ALM-301 = ALARME</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Identificação Analítica de Pontes via Algoritmo de Tarjan em $\mathcal{O}(|V|+|E|)$</h4>
+          <p>
+            Para descobrir preventivamente quais corredores não possuem redundância (arestas-ponte cuja remoção desconecta o grafo), aplicamos o <strong>Algoritmo de Tarjan (1974)</strong> baseado em uma única travessia DFS que registra para cada vértice $u$ seu tempo de descoberta $\text{disc}[u]$ e o menor tempo alcançável por arestas de retorno $\text{low}[u]$:
+          </p>
+          $$\text{low}[u] = \min\Big(\text{disc}[u], \;\min_{(u,v) \in E_{\text{tree}}} \text{low}[v], \;\min_{(u,w) \in E_{\text{back}}} \text{disc}[w]\Big), \qquad \text{Aresta } (u,v) \text{ é Ponte} \iff \mathbf{low[v] > disc[u]}$$
+          <p>
+            Se o corredor de retorno administrativo <code>TAG-08</code> ($\text{DEP-401} \to \text{ST-01}$, usado apenas ao fim do expediente) estiver fechado para tráfego produtivo no sentido direto, a condição $\text{low}[\text{AMO-301}] > \text{disc}[\text{ALM-201}]$ identifica imediatamente <strong><code>TAG-04</code> ($\text{ALM-201} \to \text{AMO-301}$)</strong> como a única ponte crítica de escoamento produtivo do galpão.
           </p>
         </div>
       </article>
 
       <!-- AULA 16 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 16 • Inspeção Euleriana</span>
+          <span class="module-badge badge-mod1">Aula 16 • Circuitos Eulerianos & Carteiro Chinês</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 16 - Problemas Eulerianos e Inspecao de Malhas.ipynb</span>
         </div>
-        <h3 class="card-title">Aula 16: Problemas Eulerianos e Inspeção de Malhas</h3>
+        <h3 class="card-title">Aula 16: Problemas Eulerianos, Carteiro Chinês e Inspeção de Malhas</h3>
         <p class="card-description">
-          Planejamento de rotas para varredura completa do piso e verificação de marcadores RFID. Aplicação do Teorema de Euler e Algoritmo de Hierholzer em $O(\vert{}E\vert{})$ para percorrer 100% dos corredores sem repetição.
+          Planejamento de rotas de manutenção preditiva e calibração de todas as tags RFID do piso. Aplicação do Teorema de Euler, eulerização ótima dos 4 nós de grau ímpar via Problema do Carteiro Chinês (CPP) e extração do circuito fechado em $\mathcal{O}(|E|)$ pelo Algoritmo de Hierholzer.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Teorema de Euler (1736) e Diagnóstico de Paridade da Malha</h4>
           <p>
-            Garante a máxima eficiência operacional durante rotinas preditivas do AGV, cobrindo todos os corredores da fábrica no menor tempo possível.
+            Em missões de varredura de infraestrutura (inspeção óptica de faixas pintadas e leitura de 100% dos transponders RFID <code>TAG-01</code> a <code>TAG-08</code>), o AGV deve percorrer <strong>todas as arestas da malha ao menos uma vez</strong> retornando à base <code>ST-01</code> com distância mínima. Pelo <strong>Teorema de Euler</strong>, um grafo conexo não-dirigido admite um <em>Circuito Euleriano</em> (percurso fechado sem repetir arestas) se, e somente se, todos os seus vértices possuem grau par ($\forall v \in V, \deg(v) \equiv 0 \pmod 2$).
+          </p>
+          <p>
+            Entretanto, a auditoria de graus totais da malha do galpão revela <strong>4 vértices de grau ímpar</strong> ($V_{\text{ímpar}} = \{\text{ST-01}, \text{ALM-201}, \text{AMO-301}, \text{DEP-401}\}$, todos com $\deg(v) = 3$), enquanto apenas <code>DOC-101</code> e <code>R-101</code> possuem grau par ($\deg = 2$). Logo, o grafo original não é diretamente euleriano.
+          </p>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. Eulerização Ótima via Problema do Carteiro Chinês (CPP)</h4>
+          <p>
+            Para transformar a malha em um multigrafo euleriano $G^* = (V, E \cup E_{\text{dup}})$ com a menor distância morta (<em>deadheading</em>) possível, resolvemos o <strong>Problema do Carteiro Chinês</strong> (Mei-Ko Kwan, 1962) avaliando os 3 emparelhamentos perfeitos possíveis entre os 4 vértices ímpares:
+          </p>
+          <ul style="padding-left: 1.25rem; margin-top: 0.4rem; color: var(--text-muted);">
+            <li><strong>Emparelhamento 1 (Ótimo):</strong> $\{(\text{ST-01}, \text{ALM-201}), (\text{AMO-301}, \text{DEP-401})\}$ duplicando os corredores <code>TAG-02</code> ($12\text{ m}$) e <code>TAG-06</code> ($14\text{ m}$) $\implies \Delta W_{\min} = 12 + 14 = \mathbf{26{,}0\text{ m}}$.</li>
+            <li><strong>Emparelhamento 2:</strong> $\{(\text{ST-01}, \text{DEP-401}), (\text{ALM-201}, \text{AMO-301})\}$ duplicando <code>TAG-08</code> ($30\text{ m}$) e <code>TAG-04</code> ($20\text{ m}$) $\implies \Delta W = 30 + 20 = 50{,}0\text{ m}$.</li>
+            <li><strong>Emparelhamento 3:</strong> $\{(\text{ST-01}, \text{AMO-301}), (\text{ALM-201}, \text{DEP-401})\}$ $\implies \Delta W = 32 + 34 = 66{,}0\text{ m}$.</li>
+          </ul>
+          <p>
+            Adicionando as arestas virtuais duplicadas de <code>TAG-02</code> e <code>TAG-06</code>, todos os vértices passam a ter grau par ($\deg^* = (4, 2, 4, 4, 2, 4)$) e o custo total do circuito de inspeção atinge o mínimo teórico global de:
+          </p>
+          $$L_{\text{CPP}} = \sum_{e \in E} W(e) + \Delta W_{\min} = 144{,}0\text{ m} + 26{,}0\text{ m} = \mathbf{170{,}0\text{ m}} \quad (\text{sobrecusto de apenas } 18{,}06\%)$$
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Algoritmo de Hierholzer (1873) em Tempo Linear $\mathcal{O}(|E|)$</h4>
+          <p>
+            Sobre o multigrafo eulerizado de $|E^*| = 10$ arestas, o <strong>Algoritmo de Hierholzer</strong> utiliza uma pilha explícita <code>stack = ['ST-01']</code> para caminhar por arestas não visitadas, desempilhando os vértices sem saída remanescente para fundir subciclos em tempo estritamente linear $\mathcal{O}(|E|)$, gerando a sequência exata de 11 paradas:
+            <code>ST-01 ➔ DOC-101 ➔ ALM-201 ➔ ST-01 ➔ ALM-201 ➔ AMO-301 ➔ R-101 ➔ DEP-401 ➔ AMO-301 ➔ DEP-401 ➔ ST-01</code>.
           </p>
         </div>
       </article>
 
       <!-- AULA 17 -->
-      <article class="card" style="margin-bottom: 2rem;">
+      <article class="card" style="margin-bottom: 2.5rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 17 • Roteamento Hamiltoniano (TSP)</span>
+          <span class="module-badge badge-mod1">Aula 17 • Ciclos Hamiltonianos & TSP 2-Opt</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 17 - Problemas Hamiltonianos e Roteamento de AGV.ipynb</span>
         </div>
-        <h3 class="card-title">Aula 17: Problemas Hamiltonianos e Roteamento de AGV (TSP)</h3>
+        <h3 class="card-title">Aula 17: Problemas Hamiltonianos e Roteamento de AGV (TSP: Nearest Neighbor + 2-Opt)</h3>
         <p class="card-description">
-          Otimização de rotas de coleta e entrega múltipla de paletes. Resolução do Problema do Caixeiro-Viajante (TSP) através da combinação da heurística gulosa Nearest Neighbor e refinamento local 2-Opt.
+          Roteamento de coleta múltipla de amostras em todas as 6 estações da planta sem repetição de vértices. Comparação numérica entre a heurística construtiva Nearest Neighbor ($155{,}62\text{ m}$) e o refinamento por busca local 2-Opt ($135{,}62\text{ m}$, economia de $20{,}00\text{ m}$ / $12{,}85\%$), integrado ao intertravamento $a_1 \rightarrow \neg m_1$.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Dualidade Conceitual: Inspeção Euleriana (Arestas) vs. Coleta Hamiltoniana (Vértices)</h4>
           <p>
-            O algoritmo 2-Opt desfaz cruzamentos geométricos no mapa do galpão, reduzindo significativamente a distância total e prevenindo o desgaste das rodas do AGV.
+            Enquanto a Aula 16 focou em percorrer cada <em>corredor (aresta)</em> em tempo polinomial $\mathcal{O}(|E|)$, a rotina de coleta laboratorial com o braço <code>A-301</code> exige visitar cada <strong>estação (vértice) exatamente uma vez</strong> e retornar à base <code>ST-01</code> — o clássico <strong>Problema do Caixeiro-Viajante (TSP)</strong>, que é <em>NP-Difícil</em> com $(n-1)!/2$ ciclos possíveis. Para operação em tempo real no CLP/SCADA, combinamos uma heurística construtiva rápida em $\mathcal{O}(n^2)$ com refinamento de busca local 2-Opt.
+          </p>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. Comparação Numérica: Armadilha Gulosa do Nearest Neighbor ($155{,}62\text{ m}$) vs. 2-Opt ($135{,}62\text{ m}$)</h4>
+          <p>
+            Partindo de <code>ST-01</code>, a heurística do <strong>Vizinho Mais Próximo (Nearest Neighbor — NN)</strong> escolhe <code>DOC-101</code> ($10{,}0\text{ m}$), <code>ALM-201</code> ($15{,}0\text{ m}$) e <code>AMO-301</code> ($20{,}0\text{ m}$). Ao chegar em <code>AMO-301</code>, restam duas estações não visitadas: <code>DEP-401</code> ($14{,}0\text{ m}$) e <code>R-101</code> ($18{,}0\text{ m}$). Por miopia gulosa ($14{,}0 < 18{,}0$), o NN visita <code>DEP-401</code> primeiro, obrigando o AGV a subir depois para <code>R-101</code> ($25{,}0\text{ m}$) e retornar de <code>R-101</code> direto à base <code>ST-01</code> por uma diagonal longa de $71{,}62\text{ m}$ que cruza geometricamente a rota no galpão!
+          </p>
+          <p>
+            O algoritmo <strong>2-Opt (Croes, 1958)</strong> testa trocas de pares de arestas não-adjacentes verificando se $d(A,C) + d(B,D) < d(A,B) + d(C,D)$. Ao inverter o segmento <code>['DEP-401', 'R-101']</code> para <code>['R-101', 'DEP-401']</code>, o 2-Opt elimina o cruzamento espacial e reduz a distância em <strong>$20{,}00\text{ m}$ ($12{,}85\%$ de economia de bateria)</strong>:
+          </p>
+
+          <div class="table-responsive" style="margin: 0.85rem 0 1rem;">
+            <table>
+              <thead>
+                <tr><th>Método de Otimização TSP</th><th>Ciclo Hamiltoniano Fechado ($6$ Estações + Retorno)</th><th>Soma das Etapas (m)</th><th>Distância Total</th><th>Redução / Ganho</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nearest Neighbor (NN)</strong><br><small>Heurística Construtiva $\mathcal{O}(n^2)$</small></td>
+                  <td><code>ST-01 ➔ DOC-101 ➔ ALM-201 ➔ AMO-301 ➔ DEP-401 ➔ R-101 ➔ ST-01</code><br><small style="color: #fca5a5;">(Contém cruzamento geométrico entre AMO-301➔DEP-401 e R-101➔ST-01)</small></td>
+                  <td>$10 + 15 + 20 + 14 + 25 + 71{,}62$</td>
+                  <td>$\mathbf{155{,}62\text{ m}}$</td>
+                  <td>Referência Base</td>
+                </tr>
+                <tr style="background: rgba(16, 185, 129, 0.08);">
+                  <td><strong>Refinamento Local 2-Opt</strong><br><small>Inversão de Segmento</small></td>
+                  <td><code>ST-01 ➔ DOC-101 ➔ ALM-201 ➔ AMO-301 ➔ R-101 ➔ DEP-401 ➔ ST-01</code><br><small style="color: #6ee7b7;">(Ciclo desentrelaçado ótimo no plano do galpão)</small></td>
+                  <td>$10 + 15 + 20 + 18 + 25 + 47{,}62$</td>
+                  <td>$\mathbf{135{,}62\text{ m}}$</td>
+                  <td><strong>$-20{,}00\text{ m}$ ($12{,}85\%$)</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Intertravamento de Segurança na Coleta ($a_1 \rightarrow \neg m_1$)</h4>
+          <p>
+            Em cada parada de coleta do ciclo TSP (<code>ALM-201</code>, <code>AMO-301</code>, <code>R-101</code>), o controlador embarcado executa o protocolo de <em>handshake</em> com a lógica proposicional da Etapa 01: a proposição $a_1$ (acionamento do atuador vertical <code>A-301</code> para recolher o frasco de amostra) só é habilitada quando o encoder confirma $m_1 = 0$ (motor de tração <code>M-301</code> completamente imobilizado) e o sensor <code>AT-201</code> registra $\neg g_1$ ($\text{NH}_3 \le 25\text{ ppm}$), respeitando invariavelmente a cláusula de Horn $a_1 \rightarrow \neg m_1 \equiv \neg a_1 \lor \neg m_1$.
           </p>
         </div>
       </article>
@@ -735,16 +989,60 @@
       <!-- AULA 18 -->
       <article class="card" style="margin-bottom: 2rem;">
         <div class="card-header">
-          <span class="module-badge badge-mod1">Aula 18 • Logística Multicamada & DAG</span>
+          <span class="module-badge badge-mod1">Aula 18 • Redes Multicamada & Ordenação Topológica</span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">Arquivo: 18 - Grafos de Logistica de Insumos e Produtos Acabados.ipynb</span>
         </div>
-        <h3 class="card-title">Aula 18: Grafos de Logística de Insumos e Produtos Acabados</h3>
+        <h3 class="card-title">Aula 18: Grafos de Logística de Insumos, Redes Multicamada e Algoritmo de Kahn</h3>
         <p class="card-description">
-          Modelagem da fábrica em Redes Multicamada ($G_M$ materiais como DAG e $G_V$ veículos com ciclos). Validação da ordem de movimentação de insumos através da Ordenação Topológica pelo Algoritmo de Kahn.
+          Arquitetura ciberfísica em Rede Multicamada $\mathcal{M} = (G_M, G_V, G_E)$, modelagem do DAG completo de 19 nós da planta de fertilizantes NPK e auditoria de precedência produtiva e detecção de <em>deadlocks</em> em $\mathcal{O}(|V|+|E|)$ via Algoritmo de Kahn.
         </p>
-        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.7;">
+        <div style="font-size: 0.92rem; color: var(--text-main); line-height: 1.75;">
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">1. Formalização da Rede Multicamada $\mathcal{M} = (G_M, G_V, G_E)$</h4>
           <p>
-            A separação das camadas impede que o algoritmo aplique Dijkstra no fluxo de materiais ou tente rodar a ordenação de Kahn no tráfego físico dos veículos, mantendo a coerência entre a lógica de produção e a física dos AGVs.
+            Para impedir o erro conceitual de aplicar algoritmos de ciclo em fluxos irreversíveis de reação química ou tentar ordenar topologicamente corredores circulares de veículos, a planta é decomposta em três camadas acopladas $\mathcal{M} = (G_M, G_V, G_E)$:
+          </p>
+          <div class="grid-3" style="margin-top: 0.75rem; margin-bottom: 1rem;">
+            <div class="card" style="padding: 1rem; border-color: #10b981;">
+              <strong style="color: #10b981;">1. Camada de Materiais $G_M = (V_M, E_M)$</strong>
+              <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 0.4rem;">
+                <strong>Grafo Acíclico Dirigido (DAG):</strong> Representa a precedência físico-química irreversível dos insumos até o NPK ensacado. Auditada pelo <em>Algoritmo de Kahn</em>.
+              </p>
+            </div>
+            <div class="card" style="padding: 1rem; border-color: #38bdf8;">
+              <strong style="color: #38bdf8;">2. Camada de Veículos $G_V = (V_V, E_V, W_V)$</strong>
+              <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 0.4rem;">
+                <strong>Dígrafo Cíclico Ponderado:</strong> Representa os corredores físicos onde os AGVs e caminhões circulam e retornam à base (<code>TAG-08</code>). Otimizada por <em>Dijkstra, Hierholzer e TSP 2-Opt</em>.
+              </p>
+            </div>
+            <div class="card" style="padding: 1rem; border-color: #f59e0b;">
+              <strong style="color: #f59e0b;">3. Camada de Energia & SCADA $G_E = (V_E, E_E)$</strong>
+              <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 0.4rem;">
+                <strong>Rede de Supervisão e BMS:</strong> Acopla o estado de carga <code>BT-201</code> (recarga em <code>ST-01</code>) e as ordens de despacho do supervisório SCADA-Core às missões de transporte.
+              </p>
+            </div>
+          </div>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">2. O DAG de 19 Nós da Planta de Fertilizantes Granulados NPK</h4>
+          <p>
+            O grafo completo de transformação produtiva $G_M = (V_M, E_M)$ possui $|V_M| = 19$ nós distribuídos em <strong>7 estágios topológicos sequenciais</strong>:
+          </p>
+          <ol style="padding-left: 1.4rem; margin-top: 0.4rem; color: var(--text-muted);">
+            <li><strong>Nível 0 — Recepção Rodoviária (1 nó):</strong> <code>PORT</code> (Portaria & Balança Rodoviária, $\deg^- = 0$).</li>
+            <li><strong>Nível 1 — Armazenamento Primário no Galpão A (6 nós):</strong> Boxes de sólidos <code>BOX_UREIA</code>, <code>BOX_MAP</code>, <code>BOX_KCL</code>, tanques de líquidos <code>TQ_NH3</code>, <code>TQ_H3PO4</code> e triagem de reagentes <code>ALM-201</code>.</li>
+            <li><strong>Nível 2 — Dosagem e Alimentação Gravimétrica (4 nós):</strong> <code>MOEGA</code> (Moega Central) e bateria de silos dosadores <code>SILO_N</code>, <code>SILO_P</code>, <code>SILO_K</code>.</li>
+            <li><strong>Nível 3 — Síntese Química (1 nó):</strong> <code>R-101</code> (Reator de Neutralização Tubular de Amônia e Ácido Fosfórico).</li>
+            <li><strong>Nível 4 — Controle Analítico de Qualidade (1 nó):</strong> <code>AMO-301</code> (Estação de Amostragem assistida pelo braço robótico <code>A-301</code> do Visão-AGV).</li>
+            <li><strong>Nível 5 — Acabamento Físico do Grânulo (3 nós):</strong> <code>GRAN-201</code> (Tambor Granulador), <code>SEC-202</code> (Secador Rotativo) e <code>PEN-203</code> (Peneiras Vibratórias).</li>
+            <li><strong>Nível 6 e 7 — Ensaque, Depósito B e Expedição (3 nós):</strong> <code>ENSAC-301</code> (Ensacadeiras Automáticas) $\to$ <code>DEP-401</code> (Depósito de Paletes Acabados) $\to$ <code>DOCAS</code> (Docas de Expedição Rodoviária, $\deg^+ = 0$).</li>
+          </ol>
+
+          <h4 style="color: #38bdf8; margin: 1.1rem 0 0.4rem;">3. Auditoria de Precedência e Detecção de <em>Deadlocks</em> via Algoritmo de Kahn (1962)</h4>
+          <p>
+            Antes de liberar ordens de movimentação para a frota de AGVs, o escalonador executa o <strong>Algoritmo de Kahn</strong> em complexidade linear $\mathcal{O}(|V_M| + |E_M|)$:
+          </p>
+          $$\text{Inicialização: } Q_0 = \{u \in V_M \mid \deg^-(u) = 0\}, \qquad \text{Invariante de Validação: } G_M \text{ é um DAG válido (sem deadlock)} \iff |\text{Ordem}_{\text{Kahn}}| = |V_M| = 19$$
+          <p>
+            Se uma ordem de produção mal configurada introduzir uma dependência circular (por exemplo, exigir no <code>R-101</code> um insumo reciclado de <code>GRAN-201</code> antes da partida do próprio <code>R-101</code>), todos os vértices do ciclo permanecem com $\deg^-(v) \ge 1$, a fila $Q$ esvazia prematuramente ($|\text{Ordem}_{\text{Kahn}}| < |V_M|$) e o SCADA-Core bloqueia o despacho do AGV acusando <strong>Erro de Ciclo / Deadlock Logístico</strong>.
           </p>
         </div>
       </article>
