@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etapa 01: Lógica Formal & Sistemas Especialistas | Visão-AGV / SCADA-Core</title>
+  <link rel="icon" type="image/x-icon" href="https://transparencia.unifei.edu.br/wp-content/uploads/2023/09/cropped-simbolo_RGB-32x32.png" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- MathJax 3 for LaTeX equations -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+  <!-- Mermaid.js for diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <span class="scada-badge">ETAPA 01</span>
+        <span>SCADA-Core / Visão-AGV</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">🏠 Início</a></li>
+        <li><a href="etapa-01-logica.html" class="active">⚡ Etapa 01: Lógica</a></li>
+        <li><a href="etapa-02-grafos.html">🕸️ Etapa 02: Grafos AGV</a></li>
+        <li><a href="#apresentacao">📽️ Apresentação (15 Slides)</a></li>
+        <li><a href="#simulador">🎛️ Simulador AGV</a></li>
+        <li><a href="#aulas-detalhadas">📖 Aulas 01 a 10</a></li>
+        <li><a href="planta-quimica.html">🏭 Layout Galpão</a></li>
+        <li><a href="diretrizes-github.html">🐙 GitHub & 5W2H</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Modo Escuro/Claro">☀️</button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero-section">
+    <div class="hero-container">
+      <span class="hero-tagline">Engenharia de Controle & Automação • ECAA08 2026.2 • UNIFEI</span>
+      <h1 class="hero-title">Etapa 01: Lógica Formal & Sistemas Especialistas no Visão-AGV</h1>
+      <p class="hero-subtitle">
+        Documentação técnica, apresentação interativa em 15 slides e simulador SCADA em tempo real para o intertravamento de segurança, visão computacional (<em>Modo Follow-Me</em> com MobileNet V2) e diagnóstico especialista do <strong>AGV Logístico de Inspeção e Amostragem Química (Setor 300)</strong>.
+      </p>
+      
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span>🚜 <strong>Sistema:</strong> Visão-AGV Follow-Me & Braço A-301</span>
+        </div>
+        <div class="hero-meta-item">
+          <span>📐 <strong>Fundamento:</strong> Lógica Proposicional, Predicados ($\forall, \exists$) e Cláusulas de Horn</span>
+        </div>
+        <div class="hero-meta-item">
+          <span>🏭 <strong>Setor 300:</strong> Planta Química de Fertilizantes NPK</span>
+        </div>
+        <div class="hero-meta-item">
+          <span>👥 <strong>Equipe:</strong> Luiz Fellipi • Daniel Melo • Vinicius Kody • Vinicius Resende</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#apresentacao" class="btn btn-primary">Ver Apresentação (15 Slides)</a>
+        <a href="#simulador" class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #06b6d4);">Abrir Simulador Visão-AGV</a>
+        <a href="#aulas-detalhadas" class="btn btn-outline">Consultar Aulas 01 a 10</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-container">
+
+    <!-- CALLOUT RESUMO ARQUITETURAL -->
+    <div class="callout callout-info">
+      <div class="callout-title">🤖 Engenharia do Visão-AGV: Da Visão Computacional ao Intertravamento Formal SIL 3</div>
+      <p>
+        No projeto <strong>SCADA-Core Automática: Sistema de Controle Visão-AGV</strong>, adaptamos a malha visual do projeto <em>Drone Follow-Me com OpenCV</em> para o controle multivariável de um veículo terrestre autônomo operando em áreas classificadas de uma planta de fertilizantes NPK. Como o robô compartilha corredores com operadores humanos e manipula amostras de tanques contendo amônia anidra ($\text{NH}_3$), todas as decisões de tração (<code>M-301</code>), acoplamento do braço robótico (<code>A-301</code>) e alarme (<code>ALM-301</code>) são governadas por <strong>Tautologias de Segurança</strong> e por um <strong>Motor de Inferência Híbrido (Forward/Backward Chaining)</strong>.
+      </p>
+    </div>
+
+    <!-- ===================================================
+         1. APRESENTAÇÃO COM 15 SLIDES
+         =================================================== -->
+    <section id="apresentacao" style="margin-top: 3.5rem;">
+      <div class="section-header">
+        <span class="section-tag">Apresentação Executiva</span>
+        <h2 class="section-title">Apresentação da Etapa 01 (15 Slides)</h2>
+        <p class="section-subtitle">Navegue pelos slides abaixo usando os botões ou as setas do teclado (← e →) para explorar toda a modelagem lógica do Visão-AGV.</p>
+      </div>
+
+      <div class="presentation-wrapper">
+        <div class="presentation-toolbar">
+          <div class="pres-info">
+            <span>📽️ <strong>Visão-AGV: Módulo 1 (Lógica & Inferência)</strong></span>
+            <span id="pres-slide-counter">Slide 1 de 15</span>
+          </div>
+          <div class="pres-controls">
+            <button id="pres-prev-btn" class="pres-btn" disabled>← Anterior</button>
+            <button id="pres-next-btn" class="pres-btn">Próximo →</button>
+          </div>
+        </div>
+
+        <div class="presentation-viewport">
+
+          <!-- SLIDE 1 -->
+          <div class="slide active">
+            <span class="slide-number-badge">Slide 01 / 15 • Abertura</span>
+            <h3 class="slide-title">SCADA-Core: Sistema de Controle Visão-AGV</h3>
+            <p class="slide-subtitle">Módulo 1: Lógica Formal, Intertravamentos Embarcados e Sistemas Especialistas (Aulas 01 a 10)</p>
+            <div class="slide-body">
+              <div class="grid-2">
+                <div>
+                  <p><strong>Escopo do Projeto:</strong> Desenvolvimento do núcleo lógico-matemático de supervisão, intertravamento e diagnóstico para um <strong>AGV Logístico de Inspeção e Amostragem Química</strong> guiado por Visão Computacional (Modo <em>Follow-Me</em>).</p>
+                  <ul style="padding-left: 1.25rem; margin-top: 0.75rem; color: var(--text-muted);">
+                    <li><strong>Equipe:</strong> Luiz Fellipi, Daniel Melo, Vinicius Kody e Vinicius Resende.</li>
+                    <li><strong>Normas:</strong> ISA-5.1 (Instrumentação), ISO 13849 / IEC 61508 (Segurança Funcional SIL 3).</li>
+                  </ul>
+                </div>
+                <div class="card" style="text-align: center; background: rgba(37, 99, 235, 0.06);">
+                  <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🚜 👁️ 🧪</div>
+                  <h4 style="color: var(--primary-light);">Robótica Segura Provada por Tautologia</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Integração entre inferência visual (MobileNet V2) e bloqueio determinístico contra colisão e exposição química.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 2 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 02 / 15 • Adaptação Mecatrônica</span>
+            <h3 class="slide-title">Adaptação Drone Follow-Me OpenCV para AGV Industrial</h3>
+            <p class="slide-subtitle">Conversão cinemática de 3 graus de liberdade para tração, direção e amostragem terrestre</p>
+            <div class="slide-body">
+              <p>A arquitetura visual baseia-se no repositório <a href="https://github.com/LuizFellipiFreire25/Drone-Follow-Me-OpenCV" target="_blank" style="color: #38bdf8;">Drone-Follow-Me-OpenCV</a>, convertendo os sinais proporcionais (P) da <em>Bounding Box</em> $(x, y, w, h)$ para os atuadores mecatrônicos do AGV no Setor 300:</p>
+              <div class="grid-3" style="margin-top: 1rem;">
+                <div class="card" style="padding: 1rem;">
+                  <strong style="color: #38bdf8;">Eixo X (Antigo Roll/Yaw):</strong><br>
+                  Convertido para o <strong>Servo Motor de Esterçamento</strong> ($0^\circ\text{ a }180^\circ$), mantendo o operador centralizado no frame da câmera.
+                </div>
+                <div class="card" style="padding: 1rem;">
+                  <strong style="color: #10b981;">Eixo Z (Antigo Pitch):</strong><br>
+                  Convertido para <strong>Tração PWM (Motor DC <code>M-301</code>)</strong>, regulando a velocidade conforme a área da <em>Bounding Box</em>.
+                </div>
+                <div class="card" style="padding: 1rem;">
+                  <strong style="color: #f59e0b;">Eixo Y (Antigo Throttle):</strong><br>
+                  Convertido para elevação e avanço do <strong>Braço de Amostragem (<code>A-301</code>)</strong> para coleta nas válvulas dos tanques.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 3 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 03 / 15 • Aula 01</span>
+            <h3 class="slide-title">Aula 01: Insumos do Sistema e Arquitetura SCADA-Core</h3>
+            <p class="slide-subtitle">Fontes de navegação visual, atuação mecatrônica e segurança intrínseca na Planta NPK</p>
+            <div class="slide-body">
+              <p>O AGV opera na área de risco e tancagem da Planta de Fertilizantes NPK, integrando três famílias de sinais no CLP Embarcado:</p>
+              <div class="table-responsive" style="margin-top: 0.75rem;">
+                <table>
+                  <tr><th>Subsistema</th><th>Insumos Físicos e Virtuais</th><th>Papel no SCADA-Core</th></tr>
+                  <tr><td><strong>Navegação & IA</strong></td><td>Vídeo RGB, Coordenadas $(x,y,w,h)$ e <em>Confidence Score</em> ($>50\%$)</td><td>Rastreamento <em>Follow-Me</em> seguro do operador humano.</td></tr>
+                  <tr><td><strong>Atuação de Eixos</strong></td><td>PWM Motor DC (<code>M-301</code>), Servo Direção e Pistão Linear (<code>A-301</code>)</td><td>Movimentação nos corredores e acoplamento de coleta química.</td></tr>
+                  <tr><td><strong>Safety Inputs</strong></td><td>Sensor de Amônia $\text{NH}_3$ (<code>AT-201</code>), BMS (<code>BT-201</code>) e <code>ESD-200</code></td><td>Intertravamento prioritário e desligamento fail-safe.</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 4 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 04 / 15 • Aula 02</span>
+            <h3 class="slide-title">Aula 02: Mapeamento de Variáveis para Proposições (ISA-5.1)</h3>
+            <p class="slide-subtitle">Discretização de sensores de visão e hardware em variáveis booleanas $E \in \{c_1, d_1, g_1, b_1, s_1\}$</p>
+            <div class="slide-body">
+              <div class="table-responsive">
+                <table>
+                  <tr><th>Tag ISA-5.1</th><th>Dispositivo / Algoritmo</th><th>Proposição</th><th>Condição para Estado Verdadeiro ($=1$)</th></tr>
+                  <tr><td><code>CAM-101</code></td><td>IA MobileNet V2 (Presença)</td><td>$c_1$</td><td>Operador detectado com confiança $> 50\%$</td></tr>
+                  <tr><td><code>CAM-102</code></td><td>Geometria Bounding Box / LiDAR</td><td>$d_1$</td><td>Operador em zona de colisão ($\text{Dist} \le 0.5\text{ m}$ / Área crítica)</td></tr>
+                  <tr><td><code>AT-201</code></td><td>Detector Eletroquímico $\text{NH}_3$</td><td>$g_1$</td><td>Vazamento de amônia na rota ($C_{\text{NH}_3} \ge 25\text{ ppm}$)</td></tr>
+                  <tr><td><code>BT-201</code></td><td>Transmissor de Tensão BMS</td><td>$b_1$</td><td>Bateria em descarga crítica ($\text{SoC} < 10\%$)</td></tr>
+                  <tr><td><code>ESD-200</code></td><td>Botão Físico Cogumelo (NF)</td><td>$s_1$</td><td>Parada de emergência acionada manualmente</td></tr>
+                  <tr><td><code>M-301 / A-301 / ALM-301</code></td><td>Saídas do CLP Embarcado</td><td>$m_1, a_1, l_1$</td><td>Tração ligada ($m_1$), Braço estendido ($a_1$), Alarme ativo ($l_1$)</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 5 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 05 / 15 • Aula 03 (Parte 1)</span>
+            <h3 class="slide-title">Aula 03: Equações de Intertravamento e Permissivos do AGV</h3>
+            <p class="slide-subtitle">Tradução simbólica das regras operacionais de tração, alarme e braço robótico</p>
+            <div class="slide-body">
+              <div class="grid-3">
+                <div class="card" style="padding: 1rem;">
+                  <h4 style="color: #ef4444; font-size: 0.95rem;">A. Trip de Emergência ($F$)</h4>
+                  <p style="font-size: 0.84rem; color: var(--text-muted);">Emergência manual, bateria crítica ou gás tóxico forçam parada e alarme:</p>
+                  $$F \equiv s_1 \lor b_1 \lor g_1$$
+                  $$F \rightarrow (\neg m_1 \land \neg a_1 \land l_1)$$
+                </div>
+                <div class="card" style="padding: 1rem;">
+                  <h4 style="color: #10b981; font-size: 0.95rem;">B. Permissivo Follow-Me</h4>
+                  <p style="font-size: 0.84rem; color: var(--text-muted);">Avança somente com operador visível, fora da zona de colisão e sem falhas:</p>
+                  $$P_{\text{mov}} \equiv c_1 \land \neg d_1 \land \neg F$$
+                  $$m_1 \rightarrow P_{\text{mov}}$$
+                </div>
+                <div class="card" style="padding: 1rem;">
+                  <h4 style="color: #38bdf8; font-size: 0.95rem;">C. Proteção do Braço</h4>
+                  <p style="font-size: 0.84rem; color: var(--text-muted);">O atuador linear <code>A-301</code> só pode acoplar no tanque com o AGV 100% parado:</p>
+                  $$a_1 \rightarrow \neg m_1$$
+                  $$\neg(a_1 \land m_1) \equiv \mathbf{T}$$
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 6 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 06 / 15 • Aula 03 (Parte 2)</span>
+            <h3 class="slide-title">Aula 03: Prova Formal da Tautologia de Segurança</h3>
+            <p class="slide-subtitle">Demonstração algébrica de que o AGV jamais manterá tração sob falha crítica</p>
+            <div class="slide-body">
+              <div class="callout callout-success">
+                <p><strong>Teorema da Não-Colisão em Falha:</strong> É logicamente impossível coexistirem uma falha crítica ativa ($F$) e o motor de tração ligado ($m_1$) sob o controlador formal ($m_1 \rightarrow \neg F$).</p>
+              </div>
+              <p><strong>Demonstração Dedutiva por Equivalências:</strong></p>
+              $$\Phi = S_{\text{risco}} \land (m_1 \rightarrow \neg F) \equiv (F \land m_1) \land (\neg m_1 \lor \neg F)$$
+              $$\Phi \equiv \big((F \land m_1) \land \neg m_1\big) \lor \big((F \land m_1) \land \neg F\big) \equiv (F \land \mathbf{F}) \lor (m_1 \land \mathbf{F}) \equiv \mathbf{F} \lor \mathbf{F} \equiv \mathbf{F}$$
+              <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">Logo, o estado de risco é uma <strong>Contradição Estrita ($\mathbf{F}$)</strong> e a propriedade $\neg S_{\text{risco}}$ é uma <strong>Tautologia ($\mathbf{T}$)</strong> nos $2^5 = 32$ estados da tabela-verdade.</p>
+            </div>
+          </div>
+
+          <!-- SLIDE 7 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 07 / 15 • Aula 04</span>
+            <h3 class="slide-title">Aula 04: Conectivos Lógicos, Seletor XOR e Diagrama P&ID</h3>
+            <p class="slide-subtitle">Engenharia de blocos combinacionais e exclusividade mútua de modos ($\text{Autônomo} \oplus \text{Manual}$)</p>
+            <div class="slide-body">
+              <div class="grid-2">
+                <div>
+                  <p style="font-size: 0.9rem;">Para evitar conflito de comandos entre a IA (OpenCV) e o joystick de manutenção, aplica-se a <strong>Disjunção Exclusiva ($\oplus$)</strong> no bloco permissivo de partida do motor <code>M-301</code>:</p>
+                  $$P_{\text{M-301}} \equiv c_1 \land \neg d_1 \land \neg g_1 \land \neg b_1 \land \neg s_1 \land (\text{Auto} \oplus \text{Man})$$
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Pelas <strong>Leis de De Morgan</strong>, a negação do permissivo gera a equação disjuntiva de <em>Trip</em> imediato:</p>
+                  $$\text{Trip}_{\text{M-301}} \equiv \neg c_1 \lor d_1 \lor g_1 \lor b_1 \lor s_1$$
+                </div>
+                <div class="card" style="padding: 0.75rem; text-align: center;">
+                  <img src="diagrama_agv.png" alt="Diagrama P&ID AGV ISA-5.1" style="max-height: 175px; width: auto; border-radius: 6px; margin: 0 auto;" />
+                  <small style="display: block; margin-top: 0.4rem; color: var(--text-muted);">P&ID Oficial ISA-5.1 do Visão-AGV (Setor 300)</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 8 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 08 / 15 • Aula 05</span>
+            <h3 class="slide-title">Aula 05: Formas Normais (FND/FNC) e Otimização Booleana</h3>
+            <p class="slide-subtitle">Simplificação algébrica com Override Manual ($O_m$) para redução de latência no CLP Embarcado</p>
+            <div class="slide-body">
+              <p>Considerando a equação bruta de acionamento da tração com <em>Override de Manutenção</em> ($O_m$) e termo espúrio de código legado:</p>
+              $$cmd_{\text{M-301}} = (c_1 \land \neg d_1 \land \neg F) \lor (c_1 \land \neg d_1 \land F \land O_m) \lor \underbrace{(c_1 \land \neg c_1 \land \neg d_1)}_{\text{Contradição } = 0}$$
+              <ol style="padding-left: 1.25rem; margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                <li><strong>Lei do Complemento:</strong> $c_1 \land \neg c_1 \equiv 0$, eliminando o 3º mintermo.</li>
+                <li><strong>Fatoração Distributiva:</strong> $(c_1 \land \neg d_1) \land (\neg F \lor (F \land O_m))$.</li>
+                <li><strong>Absorção ($\neg F \lor (F \land O_m) \equiv \neg F \lor O_m$):</strong></li>
+              </ol>
+              $$cmd_{\text{M-301, otimizado}} \equiv c_1 \land \neg d_1 \land (\neg F \lor O_m)$$
+              <div class="callout callout-info" style="margin-top: 0.5rem; padding: 0.5rem 0.9rem; font-size: 0.85rem;">
+                <strong>Ganho Computacional (SymPy):</strong> Redução de <strong>10 portas lógicas para 4</strong> (60% menos instruções por ciclo de scan).
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 9 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 09 / 15 • Aula 06</span>
+            <h3 class="slide-title">Aula 06: Lógica de Predicados e Quantificadores ($\forall, \exists$)</h3>
+            <p class="slide-subtitle">Varredura parametrizada sobre o domínio de sensores de segurança $\mathcal{S}_{\text{AGV}} = \{s_1, g_1, b_1, d_1\}$</p>
+            <div class="slide-body">
+              <div class="grid-2">
+                <div class="card">
+                  <h4 style="color: #10b981;">Integridade Total ($\text{Permissivo}_{\forall}$)</h4>
+                  <p style="font-size: 0.88rem; color: var(--text-muted);">Para liberar a navegação autônoma, <strong>TODOS</strong> os sensores devem estar sem falha:</p>
+                  $$\text{Permissivo}_{\forall} \equiv \forall x \in \mathcal{S}_{\text{AGV}}, \; \neg \text{Fault}(x)$$
+                  $$\equiv \neg \text{Fault}(s_1) \land \neg \text{Fault}(g_1) \land \neg \text{Fault}(b_1) \land \neg \text{Fault}(d_1)$$
+                </div>
+                <div class="card">
+                  <h4 style="color: #ef4444;">Parada por Falha Distribuída ($\text{Trip}_{\exists}$)</h4>
+                  <p style="font-size: 0.88rem; color: var(--text-muted);">Se <strong>EXISTIR AO MENOS UM</strong> sensor em estado crítico, dispara-se o <em>Trip</em>:</p>
+                  $$\text{Trip}_{\exists} \equiv \exists x \in \mathcal{S}_{\text{AGV}}, \; \text{Fault}(x)$$
+                  $$\neg (\forall x \neg \text{Fault}(x)) \equiv \exists x \text{Fault}(x)$$
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 10 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 10 / 15 • Aula 07 (Parte 1)</span>
+            <h3 class="slide-title">Aula 07: Validade de Argumentos e Regras de Inferência</h3>
+            <p class="slide-subtitle">Dedução formal no controlador de segurança do AGV ($P_1, P_2, \dots, P_k \models C$)</p>
+            <div class="slide-body">
+              <div class="table-responsive">
+                <table>
+                  <tr><th>Regra Dedutiva</th><th>Forma Simbólica</th><th>Aplicação Direta no Visão-AGV</th></tr>
+                  <tr><td><strong>Modus Ponens (MP)</strong></td><td>$P \rightarrow Q, \; P \vdash Q$</td><td>Se $(d_1 \lor g_1) \rightarrow \text{Trip}_{\text{M-301}}$ e $d_1 = 1$, deduz-se $\text{Trip}_{\text{M-301}} = 1$.</td></tr>
+                  <tr><td><strong>Modus Tollens (MT)</strong></td><td>$P \rightarrow Q, \; \neg Q \vdash \neg P$</td><td>Se $m_1 \rightarrow \neg F$ e ocorreu falha $F=1$, então obrigatoriamente $\neg m_1$.</td></tr>
+                  <tr><td><strong>Silogismo Disjuntivo</strong></td><td>$P \lor Q, \; \neg P \vdash Q$</td><td>Modo Autônomo $\lor$ Manual. Se $\neg\text{Autônomo}$, opera em Modo Manual.</td></tr>
+                  <tr><td><strong> Silogismo Hipotético</strong></td><td>$P \rightarrow Q, \; Q \rightarrow R \vdash P \rightarrow R$</td><td>$\text{Obstáculo} \rightarrow \text{RiscoColisão}$ e $\text{RiscoColisão} \rightarrow \text{Freio}$.</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 11 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 11 / 15 • Aula 07 (Parte 2)</span>
+            <h3 class="slide-title">Aula 07: Prova por Refutação (Reductio ad Absurdum)</h3>
+            <p class="slide-subtitle">Certificação de propriedades SIL 3 por insatisfatibilidade ($\text{UNSAT}$)</p>
+            <div class="slide-body">
+              <div class="grid-2">
+                <div>
+                  <h4 style="color: var(--primary-light);">Método de Refutação no CLP</h4>
+                  <p style="font-size: 0.88rem; color: var(--text-muted);">
+                    Para provar que $\{P_1, P_2, P_3\} \models \text{Trip}_{\text{M-301}}$, assumimos a negação da conclusão ($\neg \text{Trip}_{\text{M-301}}$) e buscamos uma contradição:
+                  </p>
+                  $$\{d_1, \; (d_1 \lor g_1) \rightarrow \text{Trip}_{\text{M-301}}, \; \neg \text{Trip}_{\text{M-301}}\} \models \mathbf{F}$$
+                  <p style="font-size: 0.85rem;">Como nenhum dos $2^n$ estados satisfaz simultaneamente o conjunto, o protocolo de frenagem é matematicamente infalível.</p>
+                </div>
+                <div class="card" style="background: rgba(239, 68, 68, 0.06); border-color: #ef4444;">
+                  <h4 style="color: #ef4444;">⚠️ Prevenção de Falácias Lógicas</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    O verificador do notebook rejeita falácias clássicas como a <strong>Afirmação do Consequente</strong> ($\text{AlarmeAtivo} \not\vdash \text{VazamentoNH3}$, pois o alarme pode ter sido acionado por bateria baixa ou E-Stop!).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 12 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 12 / 15 • Aula 08 (Parte 1)</span>
+            <h3 class="slide-title">Aula 08: Sistema Especialista Baseado em Regras $\langle \mathcal{F}, \mathcal{R}, \mathcal{E} \rangle$</h3>
+            <p class="slide-subtitle">Modelagem em Cláusulas de Horn Definidas e Arbitragem de Conflitos IEC 61508</p>
+            <div class="slide-body">
+              <p>O motor especialista do Visão-AGV estrutura o conhecimento de diagnóstico mecatrônico na tripla formal $\langle \mathcal{F}, \mathcal{R}, \mathcal{E} \rangle$:</p>
+              <ul style="padding-left: 1.25rem; margin: 0.75rem 0; color: var(--text-muted); font-size: 0.9rem;">
+                <li><strong>Base de Fatos ($\mathcal{F}(t)$):</strong> Objetos <code>FatoTelemetria</code> com timestamp em milissegundos vindos do barramento CAN, LiDAR, câmera e BMS.</li>
+                <li><strong>Base de Conhecimento ($\mathcal{R}$):</strong> Objetos <code>RegraSegurancaAGV</code> representados como Cláusulas de Horn:
+                  $$\text{SE } (A_1 \land A_2 \land \dots \land A_k) \text{ ENTÃO } C \quad \equiv \quad \neg A_1 \lor \neg A_2 \lor \dots \lor \neg A_k \lor C$$
+                </li>
+                <li><strong>Resolução de Conflitos ($\mathcal{E}$):</strong> Ordena a Agenda por <strong>Maior Prioridade SIL</strong> (decrescente) e <strong>Menor Tempo de Resposta em ms</strong> (crescente).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- SLIDE 13 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 13 / 15 • Aula 08 (Parte 2)</span>
+            <h3 class="slide-title">Aula 08: Catálogo Oficial de Regras `R-01` a `R-06` do AGV</h3>
+            <p class="slide-subtitle">Base de conhecimento implementada nos notebooks das Aulas 08, 09 e 10</p>
+            <div class="slide-body">
+              <div class="table-responsive">
+                <table>
+                  <tr><th>Regra</th><th>Antecedentes (AND)</th><th>Consequente Inferido</th><th>Causa-Raiz & Severidade</th><th>Prio / Tempo</th></tr>
+                  <tr><td><code>R-01</code></td><td><code>LIDAR_ZONA_VERMELHA</code> $\land$ <code>VELOCIDADE_GT_ZERO</code></td><td><code>RISCO_COLISAO_IMINENTE</code></td><td>Intrusão de Obstáculo na Rota (SIL 3)</td><td>Prio 10 / $50\text{ ms}$</td></tr>
+                  <tr><td><code>R-02</code></td><td><code>RISCO_COLISAO_IMINENTE</code> $\land$ <code>FALHA_COMUNIC_WIFI</code></td><td><code>TRIP_ISOLAMENTO_TOTAL</code></td><td>AGV Cego e Incomunicável (EMERGÊNCIA)</td><td>Prio 10 / $10\text{ ms}$</td></tr>
+                  <tr><td><code>R-03</code></td><td><code>MOTOR_PWM_HIGH</code> $\land$ <code>ENCODER_RPM_ZERO</code></td><td><code>ROTOR_BLOQUEADO</code></td><td>Travamento Mecânico da Roda (ALTA)</td><td>Prio 7 / $100\text{ ms}$</td></tr>
+                  <tr><td><code>R-04</code></td><td><code>SENSOR_GAS_NH3_HIGH</code> ($g_1$)</td><td><code>ABORTAR_MISSAO_QUIMICA</code></td><td>Zona de Vazamento de Amônia (CRÍTICA)</td><td>Prio 9 / $200\text{ ms}$</td></tr>
+                  <tr><td><code>R-05</code></td><td><code>BATERIA_SOC_LOW</code> $\land$ <code>CARGA_ENGATADA</code></td><td><code>BMS_DESCARGA_CRITICA</code></td><td>Risco de Apagão no Trajeto (MÉDIA)</td><td>Prio 4 / $500\text{ ms}$</td></tr>
+                  <tr><td><code>R-06</code></td><td><code>BMS_TEMP_HIGH</code> $\land$ <code>CORRENTE_CARGA_HIGH</code></td><td><code>RISCO_FUGA_TERMICA</code></td><td>Sobreaquecimento Pack Lítio (CRÍTICA)</td><td>Prio 8 / $150\text{ ms}$</td></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 14 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 14 / 15 • Aula 09</span>
+            <h3 class="slide-title">Aula 09: Motores Forward & Backward Chaining no AGV</h3>
+            <p class="slide-subtitle">Dedução reativa em múltiplos ciclos e auditoria regressiva de causa-raiz</p>
+            <div class="slide-body">
+              <div class="grid-2">
+                <div class="card" style="background: rgba(37, 99, 235, 0.06);">
+                  <h4 style="color: var(--primary-light);">Forward Chaining (Reativo em Tempo Real)</h4>
+                  <p style="font-size: 0.86rem; color: var(--text-muted);">
+                    Partindo de <code>LIDAR_ZONA_VERMELHA</code> e <code>VELOCIDADE_GT_ZERO</code>, dispara <code>R-01</code> no Ciclo 1 gerando o fato intermediário <code>RISCO_COLISAO_IMINENTE</code>. No Ciclo 2, combina-o com <code>FALHA_COMUNIC_WIFI</code> para disparar <code>R-02</code> (<code>TRIP_ISOLAMENTO_TOTAL</code>)!
+                  </p>
+                </div>
+                <div class="card" style="background: rgba(16, 185, 129, 0.06);">
+                  <h4 style="color: var(--accent-green);">Backward Chaining (Perícia Pós-Incidente)</h4>
+                  <p style="font-size: 0.86rem; color: var(--text-muted);">
+                    Dada a meta <code>H = TRIP_ISOLAMENTO_TOTAL</code>, o algoritmo busca recursivamente as sub-metas (<code>R-02</code> $\leftarrow$ <code>R-01</code>) e comprova na memória de telemetria $\mathcal{F}(t)$ quais sensores causaram o bloqueio.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 15 -->
+          <div class="slide">
+            <span class="slide-number-badge">Slide 15 / 15 • Aula 10 & Conclusão</span>
+            <h3 class="slide-title">Aula 10: Avaliação Integrada do Módulo 1 & Transição para Grafos</h3>
+            <p class="slide-subtitle">Consolidação do Motor de Intertravamento e Diagnóstico do Visão-AGV</p>
+            <div class="slide-body">
+              <div class="grid-3">
+                <div class="card" style="padding: 1rem; text-align: center;">
+                  <div style="font-size: 1.8rem; margin-bottom: 0.35rem;">🛡️</div>
+                  <strong>32/32 Estados Seguros</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Tabela-verdade e refutação formal sem falhas de segurança.</p>
+                </div>
+                <div class="card" style="padding: 1rem; text-align: center;">
+                  <div style="font-size: 1.8rem; margin-bottom: 0.35rem;">⚡</div>
+                  <strong>60% Menos Portas</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Equação otimizada via SymPy para scan embarcado $<10\text{ ms}$.</p>
+                </div>
+                <div class="card" style="padding: 1rem; text-align: center;">
+                  <div style="font-size: 1.8rem; margin-bottom: 0.35rem;">🕸️</div>
+                  <strong>Rumo à Etapa 02</strong>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Navegação do AGV em Grafos, Dijkstra, Hierholzer e TSP 2-Opt.</p>
+                </div>
+              </div>
+              <div class="callout callout-info" style="margin-top: 1rem;">
+                <strong>Integração com a Etapa 02:</strong> Quando a regra <code>R-01</code> (Obstáculo) ou <code>R-04</code> (Vazamento de $\text{NH}_3$) é disparada pelo Motor Lógico da Etapa 01, o SCADA-Core eleva o peso do corredor afetado para $W \to \infty$ no grafo da Etapa 02 e recalcula o desvio ótimo do AGV via <strong>Algoritmo de Dijkstra</strong>!
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="presentation-footer">
+          <div class="slide-dots" id="slide-dots"></div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Use as setas ← e → do teclado para avançar ou retroceder</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================
+         2. SIMULADOR SCADA VISÃO-AGV EM JAVASCRIPT
+         =================================================== -->
+    <section id="simulador" style="margin-top: 4rem;">
+      <div class="section-header">
+        <span class="section-tag">Laboratório Virtual Interativo</span>
+        <h2 class="section-title">Simulador SCADA-Core: Visão-AGV (Modo Follow-Me & Amostragem)</h2>
+        <p class="section-subtitle">Ajuste os parâmetros da visão computacional (MobileNet V2), sensores químicos e bateria para testar as equações booleanas, quantificadores e o motor especialista Forward Chaining em tempo real.</p>
+      </div>
+
+      <div class="scada-sim-container">
+        
+        <div class="scada-header">
+          <div class="scada-title-box">
+            <div class="scada-live-indicator"></div>
+            <div>
+              <h3 style="font-size: 1.15rem; margin: 0; font-family: var(--font-mono); color: #ffffff;">SCADA-CORE: VISÃO-AGV LOGÍSTICO — SETOR 300 (PLANTA NPK)</h3>
+              <small style="color: #94a3b8; font-family: var(--font-mono);">OpenCV MobileNet V2 • CLP Embarcado Scan 10ms • Regras R-01 a R-06 Ativas</small>
+            </div>
+          </div>
+          <div id="scada-sis-status">
+            <span style="color:#10b981; font-weight:bold;">🟢 FOLLOW-ME OPERACIONAL</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <small style="color: #94a3b8; font-family: var(--font-mono); display: block; margin-bottom: 0.4rem;">INJEÇÃO RÁPIDA DE CENÁRIOS DE CAMPO DO AGV:</small>
+          <div class="preset-buttons">
+            <button id="preset-normal" class="preset-btn">🟢 Operação Follow-Me Nominal</button>
+            <button id="preset-collision" class="preset-btn" style="border-color: #ef4444; color: #fca5a5;">🔴 Obstáculo Crítico + Wi-Fi Fail (R-01/R-02)</button>
+            <button id="preset-toxic" class="preset-btn" style="border-color: #f59e0b; color: #fcd34d;">☣️ Vazamento NH3 (AT-201 / R-04)</button>
+            <button id="preset-bms" class="preset-btn" style="border-color: #a855f7; color: #e9d5ff;">🔋 Fuga Térmica / Bateria Baixa (R-05/R-06)</button>
+            <button id="preset-sampling" class="preset-btn" style="border-color: #38bdf8; color: #bae6fd;">🧪 Coleta Estacionária (Braço A-301)</button>
+            <button id="preset-esd" class="preset-btn" style="border-color: #ec4899; color: #fbcfe8;">🛑 Emergência Manual (ESD-200)</button>
+          </div>
+        </div>
+
+        <div class="scada-grid">
+          
+          <!-- SINÓTICO VISUAL DO VISÃO-AGV (SVG INTERATIVO) -->
+          <div class="scada-synoptic">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <strong style="color: #38bdf8; font-family: var(--font-mono); font-size: 0.85rem;">SINÓTICO VISÃO-AGV & TANQUE DE AMOSTRAGEM (SETOR 300)</strong>
+              <span id="syn-alarm-beacon" style="display: none; background: #ef4444; color: #ffffff; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; animation: pulseLive 0.8s infinite;">🚨 ALARME ALM-301 ATIVO</span>
+            </div>
+
+            <div class="synoptic-svg-wrap">
+              <svg viewBox="0 0 520 270" style="width: 100%; height: 100%;">
+                <!-- Piso / Corredor Industrial TAG-05 -->
+                <line x1="10" y1="230" x2="510" y2="230" stroke="#334155" stroke-width="4"/>
+                <line x1="20" y1="238" x2="500" y2="238" stroke="#1e293b" stroke-width="2" stroke-dasharray="12,8"/>
+                <text id="syn-status-text" x="260" y="25" fill="#10b981" font-size="11" font-family="monospace" text-anchor="middle" font-weight="bold">ESTADO: FOLLOW-ME ATIVO (TRAÇÃO PWM M-301)</text>
+
+                <!-- Feixe de Visão Computacional CAM-101 / CAM-102 -->
+                <polygon id="syn-vision-beam" points="195,155 65,95 65,220" fill="#38bdf8" opacity="0.15" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,4"/>
+
+                <!-- Operador Humano + Bounding Box MobileNet V2 -->
+                <g id="syn-operator-group" transform="translate(80, 115)">
+                  <!-- Bounding Box -->
+                  <rect id="syn-bbox-operator" x="-22" y="-18" width="44" height="110" rx="4" fill="none" stroke="#10b981" stroke-width="2"/>
+                  <text id="syn-bbox-label" x="0" y="-24" fill="#10b981" font-size="8.5" font-family="monospace" text-anchor="middle" font-weight="bold">ID:OP (88%) 1.8m</text>
+                  <!-- Capacete e Operador -->
+                  <circle cx="0" cy="4" r="10" fill="#fbbf24"/>
+                  <rect x="-10" y="16" width="20" height="38" rx="4" fill="#3b82f6"/>
+                  <line x1="-6" y1="54" x2="-8" y2="85" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="6" y1="54" x2="8" y2="85" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+                </g>
+
+                <!-- Chassi do AGV Logístico (Centro) -->
+                <g id="syn-agv-chassis">
+                  <!-- Giroflex ALM-301 -->
+                  <circle id="syn-agv-beacon" cx="220" cy="122" r="8" fill="#334155" stroke="#e2e8f0" stroke-width="1.5"/>
+                  <text x="220" y="109" fill="#94a3b8" font-size="7.5" font-family="monospace" text-anchor="middle">ALM-301</text>
+
+                  <!-- Câmera Frontal CAM-101 / CAM-102 -->
+                  <rect x="188" y="142" width="14" height="16" rx="3" fill="#0ea5e9" stroke="#ffffff" stroke-width="1"/>
+                  <text x="172" y="138" fill="#38bdf8" font-size="7.5" font-family="monospace" text-anchor="middle">CAM-101/102</text>
+
+                  <!-- Corpo Principal do AGV -->
+                  <rect x="195" y="132" width="125" height="70" rx="10" fill="#0f2942" stroke="#38bdf8" stroke-width="2.5"/>
+                  <text x="257" y="150" fill="#ffffff" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">VISÃO-AGV</text>
+
+                  <!-- Bateria BMS BT-201 -->
+                  <rect x="208" y="158" width="40" height="14" rx="2" fill="#091224" stroke="#64748b" stroke-width="1"/>
+                  <rect id="syn-bt201-bar" x="210" y="160" width="32" height="10" rx="1" fill="#10b981"/>
+                  <text x="228" y="182" fill="#94a3b8" font-size="7.5" font-family="monospace" text-anchor="middle">BT-201 (BMS)</text>
+
+                  <!-- Motor de Tração M-301 -->
+                  <circle id="syn-m301-state" cx="285" cy="168" r="13" fill="#10b981" stroke="#ffffff" stroke-width="1.5"/>
+                  <text x="285" y="171" fill="#ffffff" font-size="7.5" font-family="monospace" text-anchor="middle" font-weight="bold">M-301</text>
+
+                  <!-- Braço Robótico de Amostragem A-301 -->
+                  <circle id="syn-a301-state" cx="315" cy="145" r="8" fill="#475569" stroke="#ffffff" stroke-width="1.2"/>
+                  <line id="syn-arm-ext" x1="320" y1="145" x2="325" y2="145" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+                  <text x="352" y="135" fill="#38bdf8" font-size="7.5" font-family="monospace" text-anchor="middle">Braço A-301</text>
+
+                  <!-- Rodas com Raios Animados -->
+                  <g id="syn-wheel-1">
+                    <circle cx="215" cy="215" r="15" fill="#1e293b" stroke="#e2e8f0" stroke-width="3"/>
+                    <line x1="203" y1="215" x2="227" y2="215" stroke="#38bdf8" stroke-width="2"/>
+                    <line x1="215" y1="203" x2="215" y2="227" stroke="#38bdf8" stroke-width="2"/>
+                  </g>
+                  <g id="syn-wheel-2">
+                    <circle cx="285" cy="215" r="15" fill="#1e293b" stroke="#e2e8f0" stroke-width="3"/>
+                    <line x1="273" y1="215" x2="297" y2="215" stroke="#38bdf8" stroke-width="2"/>
+                    <line x1="285" y1="203" x2="285" y2="227" stroke="#38bdf8" stroke-width="2"/>
+                  </g>
+                </g>
+
+                <!-- Ponto de Amostragem / Tanque Químico AMO-301 / R-101 (Direita) -->
+                <rect x="420" y="95" width="75" height="135" rx="10" fill="#0f1f38" stroke="#f59e0b" stroke-width="2.5"/>
+                <rect x="424" y="145" width="67" height="80" rx="6" fill="#10b981" opacity="0.55"/>
+                <circle cx="420" cy="145" r="6" fill="#fbbf24" stroke="#ffffff" stroke-width="1"/>
+                <text x="457" y="120" fill="#fbbf24" font-size="10" font-family="monospace" text-anchor="middle" font-weight="bold">AMO-301</text>
+                <text x="457" y="134" fill="#cbd5e1" font-size="8" font-family="monospace" text-anchor="middle">Tanque NH3/MAP</text>
+                <text x="457" y="190" fill="#ffffff" font-size="8" font-family="monospace" text-anchor="middle">Sensor AT-201</text>
+
+                <!-- Nuvem Tóxica de Amônia NH3 (Visível se g1 = 1) -->
+                <g id="syn-gas-cloud" style="display: none;">
+                  <ellipse cx="395" cy="75" rx="65" ry="26" fill="#a855f7" opacity="0.65"/>
+                  <text x="395" y="79" fill="#ffffff" font-size="9.5" font-family="monospace" text-anchor="middle" font-weight="bold">☣️ VAZAMENTO NH3 ≥ 25ppm</text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- FAIXA DE PROPOSIÇÕES BOOLEANAS -->
+            <div class="propositions-strip">
+              <div id="prop-c1" class="prop-badge">c1: 1</div>
+              <div id="prop-d1" class="prop-badge">d1: 0</div>
+              <div id="prop-g1" class="prop-badge">g1: 0</div>
+              <div id="prop-b1" class="prop-badge">b1: 0</div>
+              <div id="prop-s1" class="prop-badge">s1: 0</div>
+              <div id="prop-om" class="prop-badge">Om: 0</div>
+              <div id="prop-f" class="prop-badge">F: 0</div>
+              <div id="prop-pmov" class="prop-badge">P_mov: 1</div>
+              <div id="prop-m1" class="prop-badge">m1: 1</div>
+              <div id="prop-a1" class="prop-badge">a1: 0</div>
+              <div id="prop-l1" class="prop-badge">l1: 0</div>
+            </div>
+          </div>
+
+          <!-- PAINEL DE CONTROLES E TELEMETRIA DO AGV -->
+          <div class="scada-controls-panel">
+            <strong style="color: #38bdf8; font-family: var(--font-mono); font-size: 0.85rem; display: block; margin-bottom: 0.9rem;">
+              SENSORES DE VISÃO (IA), AMBIENTE E BMS EMBARCADO
+            </strong>
+
+            <div class="control-row">
+              <div class="control-label">
+                <span>CAM-101: Confiança IA MobileNet V2 ($c_1$)</span>
+                <strong id="val-cam101">88 %</strong>
+              </div>
+              <input type="range" id="sim-cam101" class="range-slider" min="0" max="100" step="1" value="88">
+              <small style="color: #64748b; font-size: 0.74rem;">Proposição $c_1 = 1$ se $\text{Confiança} > 50\%$</small>
+            </div>
+
+            <div class="control-row">
+              <div class="control-label">
+                <span>CAM-102: Distância Frontal / BBox ($d_1$)</span>
+                <strong id="val-cam102">1.80 m</strong>
+              </div>
+              <input type="range" id="sim-cam102" class="range-slider" min="0.2" max="5.0" step="0.05" value="1.80">
+              <small style="color: #64748b; font-size: 0.74rem;">Zona de Colisão $d_1 = 1$ se $\text{Distância} \le 0.50\text{ m}$</small>
+            </div>
+
+            <div class="control-row">
+              <div class="control-label">
+                <span>AT-201: Concentração de Amônia $\text{NH}_3$ ($g_1$)</span>
+                <strong id="val-at201">2.0 ppm</strong>
+              </div>
+              <input type="range" id="sim-at201" class="range-slider" min="0" max="100" step="0.5" value="2.0">
+              <small style="color: #64748b; font-size: 0.74rem;">Vazamento Tóxico $g_1 = 1$ se $\text{NH}_3 \ge 25.0\text{ ppm}$ (Regra <code>R-04</code>)</small>
+            </div>
+
+            <div class="control-row">
+              <div class="control-label">
+                <span>BT-201: Nível de Bateria SoC ($b_1$)</span>
+                <strong id="val-bt201">85 %</strong>
+              </div>
+              <input type="range" id="sim-bt201" class="range-slider" min="0" max="100" step="1" value="85">
+              <small style="color: #64748b; font-size: 0.74rem;">Crítica $b_1 = 1$ se $< 10\%$ | Alerta <code>R-05</code> se $\le 15\%$</small>
+            </div>
+
+            <div class="control-row">
+              <div class="control-label">
+                <span>BMS-TEMP: Temperatura Pack Lítio (<code>R-06</code>)</span>
+                <strong id="val-temp-bms">32 °C</strong>
+              </div>
+              <input type="range" id="sim-temp-bms" class="range-slider" min="20" max="85" step="1" value="32">
+              <small style="color: #64748b; font-size: 0.74rem;">Risco de Fuga Térmica (<code>R-06</code>) se $T_{\text{BMS}} \ge 60^\circ\text{C}$</small>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem;">
+              <label class="sim-switch" style="font-size: 0.78rem;">
+                <input type="checkbox" id="sim-esd200">
+                <span><strong>ESD-200 ($s_1$):</strong> Botão Emergência</span>
+              </label>
+
+              <label class="sim-switch" style="font-size: 0.78rem;">
+                <input type="checkbox" id="sim-sampling-req">
+                <span><strong>A-301 ($a_1$):</strong> Solicitar Coleta no Tanque</span>
+              </label>
+
+              <label class="sim-switch" style="font-size: 0.78rem;">
+                <input type="checkbox" id="sim-wifi-fail">
+                <span><strong>Wi-Fi Fail:</strong> Queda Link (<code>R-02</code>)</span>
+              </label>
+
+              <label class="sim-switch" style="font-size: 0.78rem;">
+                <input type="checkbox" id="sim-rotor-lock">
+                <span><strong>Encoder=0:</strong> Rotor Bloqueado (<code>R-03</code>)</span>
+              </label>
+
+              <label class="sim-switch" style="font-size: 0.78rem;">
+                <input type="checkbox" id="sim-override">
+                <span><strong>Override ($O_m$):</strong> Manutenção (Aula 05)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+          
+          <div class="card" style="background: #050a17; border-color: #1e3a5f;">
+            <h4 style="color: #38bdf8; font-size: 0.95rem; margin-bottom: 0.5rem;">📐 Avaliação Booleana, Quantificadores & Prova de Invariante</h4>
+            <div id="scada-math-proof" style="font-size: 0.84rem; font-family: var(--font-mono); color: #cbd5e1; line-height: 1.6;">
+              Calculando prova formal...
+            </div>
+            <div id="scada-predicates-status" style="font-size: 0.82rem; font-family: var(--font-mono); margin-top: 0.75rem; border-top: 1px solid #1e293b; padding-top: 0.5rem;">
+              Varredura de predicados...
+            </div>
+          </div>
+
+          <div class="card" style="background: #050a17; border-color: #1e3a5f;">
+            <h4 style="color: #c084fc; font-size: 0.95rem; margin-bottom: 0.5rem;">🧠 Motor Especialista do AGV (Forward Chaining R-01 a R-06)</h4>
+            <div id="scada-inference-output" style="font-size: 0.84rem; line-height: 1.5;">
+              Aguardando varredura de regras...
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <small style="color: #94a3b8; font-family: var(--font-mono); display: block; margin-bottom: 0.35rem;">REGISTRO DE EVENTOS EM TEMPO REAL (SCADA HISTORIAN — VISÃO-AGV):</small>
+          <div class="scada-console" id="scada-console-log">
+            <div class="log-entry info">[SISTEMA] Inicializando SCADA-Core Visão-AGV...</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================================================
+         3. AULAS DETALHADAS 01 A 10
+         =================================================== -->
+    <section id="aulas-detalhadas" style="margin-top: 4.5rem;">
+      <div class="section-header">
+        <span class="section-tag">Memorial Acadêmico</span>
+        <h2 class="section-title">Memorial Detalhado das Aulas 01 a 10 (Etapa 01)</h2>
+        <p class="section-subtitle">Rastreabilidade completa entre os fundamentos de Matemática Discreta e os documentos/notebooks desenvolvidos pela equipe na pasta <code>etapa-01-logica/</code>.</p>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 9%;">Aula / Doc</th>
+              <th style="width: 23%;">Título e Foco no Visão-AGV</th>
+              <th style="width: 40%;">Modelagem Matemática & Engenharia de Controle</th>
+              <th style="width: 28%;">Arquivos no Repositório (<code>etapa-01-logica/</code>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Aula 01</strong></td>
+              <td>Contexto Industrial, Insumos e Kick-off do AGV</td>
+              <td>Definição dos insumos de navegação visual (MobileNet V2, Bounding Box $x,y,w,h$, confiança $>50\%$), atuação nos 3 eixos convertidos do drone e entradas de segurança (<code>AT-201</code>, <code>BT-201</code>, <code>ESD-200</code>).</td>
+              <td><code>00 - Insumos.md</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 02</strong></td>
+              <td>Mapeamento de Variáveis de Processo (ISA-5.1)</td>
+              <td>Discretização das variáveis do Setor 300 nas proposições de entrada $E \in \{c_1, d_1, g_1, b_1, s_1\}$ e saída do CLP embarcado $S \in \{m_1, a_1, l_1\}$.</td>
+              <td><code>02 - Mapeament de variáveis de processo.md</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 03</strong></td>
+              <td>Tautologias, Contradições e Intertravamento</td>
+              <td>Equações de Falha Crítica ($F \equiv s_1 \lor b_1 \lor g_1$), Permissivo ($P_{\text{mov}} \equiv c_1 \land \neg d_1 \land \neg F$), intertravamento do braço ($a_1 \rightarrow \neg m_1$) e prova formal de contradição $(F \land m_1) \land (\neg m_1 \lor \neg F) \equiv \mathbf{F}$ nos 32 estados.</td>
+              <td><code>03 - Tautologias e contradições.md</code><br><code>03 - Tautologias e contradições.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 04</strong></td>
+              <td>Conectivos Lógicos, Permissivos e P&ID ISA-5.1</td>
+              <td>Modelagem do bloco permissivo com disjunção exclusiva ($\text{Autônomo} \oplus \text{Manual}$) para o motor <code>M-301</code> e especificação do diagrama P&ID oficial do AGV.</td>
+              <td><code>04 - Diagrama_Arquitetura.md</code><br><code>04 - Logica Proposicional Conectivos e Permissivos.md</code><br><code>04 - Logica Proposicional Conectivos e Permissivos.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 05</strong></td>
+              <td>Formas Normais (FND/FNC) e Otimização Booleana</td>
+              <td>Conversão canônica SOP/POS e simplificação algébrica via SymPy da equação de tração com Override Manual ($O_m$), reduzindo de 10 para 4 portas lógicas: $c_1 \land \neg d_1 \land (\neg F \lor O_m)$.</td>
+              <td><code>05 - Formas Normais e Otimizacao Booleana.md</code><br><code>05 - Formas Normais e Otimizacao Booleana.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 06</strong></td>
+              <td>Quantificadores ($\forall, \exists$) e Predicados em Sensores</td>
+              <td>Lógica de Primeira Ordem sobre $\mathcal{S}_{\text{AGV}} = \{s_1, g_1, b_1, d_1\}$: $\text{Permissivo}_{\forall} \equiv \forall x \neg \text{Fault}(x)$ e $\text{Trip}_{\exists} \equiv \exists x \text{Fault}(x)$, validando a dualidade de De Morgan.</td>
+              <td><code>06 - Quantificadores e Predicados em Redes de Sensores.md</code><br><code>06 - Quantificadores e Predicados em Redes de Sensores.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 07</strong></td>
+              <td>Validade de Argumentos e Inferência Dedutiva</td>
+              <td>Aplicação de <em>Modus Ponens</em>, <em>Modus Tollens</em>, Silogismo Disjuntivo, Prova por Refutação ($\text{UNSAT}$) e detecção de falácias lógicas na malha de segurança do AGV.</td>
+              <td><code>07 - Validade e Inferencia Logica na Seguranca.md</code><br><code>07 - Validade e Inferencia Logica na Seguranca.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 08</strong></td>
+              <td>Sistemas Especialistas e Catálogo <code>R-01</code> a <code>R-06</code></td>
+              <td>Implementação das classes <code>FatoTelemetria</code>, <code>RegraSegurancaAGV</code> e <code>MotorInferenciaAGV</code> com 6 Cláusulas de Horn e arbitragem de conflitos por prioridade SIL.</td>
+              <td><code>08 - Base de Conhecimento e Regras de Diagnostico.md</code><br><code>08 - Base de Conhecimento e Regras de Diagnostico.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 09</strong></td>
+              <td>Motores Forward & Backward Chaining</td>
+              <td>Encadeamento para frente orientado a dados (inferindo <code>RISCO_COLISAO_IMINENTE</code> $\to$ <code>TRIP_ISOLAMENTO_TOTAL</code>) e encadeamento regressivo orientado a hipóteses para auditoria de incidentes.</td>
+              <td><code>09 - Motor de Inferencia Forward e Backward Chaining.md</code><br><code>09 - Motor de Inferencia Forward e Backward Chaining.ipynb</code></td>
+            </tr>
+            <tr>
+              <td><strong>Aula 10</strong></td>
+              <td><strong>Avaliação Integrada do Módulo 1</strong></td>
+              <td>Integração completa da normalização de telemetria CAN/Visão, verificador formal de tautologias ($2^n$ estados) e motor híbrido de diagnóstico em malha fechada.</td>
+              <td><code>10 - Avaliacao Modulo 1 Motor de Intertravamento e Diagnostico.md</code><br><code>10 - Avaliacao Modulo 1 Motor de Intertravamento e Diagnostico.ipynb</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NAVEGAÇÃO ENTRE PÁGINAS -->
+    <div style="display: flex; justify-content: space-between; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+      <a href="index.html" class="btn btn-outline">← Voltar ao Portal Principal</a>
+      <a href="etapa-02-grafos.html" class="btn btn-primary">Avançar para Etapa 02: Teoria dos Grafos & Rotas AGV →</a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>© 2026.2 ECAA08 Automática • Engenharia de Controle e Automação • UNIFEI. Publicado no GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>
